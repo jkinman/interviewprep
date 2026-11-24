@@ -12,15 +12,9 @@ Date: 2026-11-24
 
 ## Purpose and how to use
 
-Recruiters and hiring managers reuse a short list of screen and behavioral questions. The hard part is not knowing the list. It is answering from real experience, at the right length, without inventing a neater story than you have.
+Copy the URL of this page into any AI assistant (Claude, ChatGPT, etc.). The AI will read these instructions, ask you for your resume and job details, then produce a beautiful interactive cheat sheet.
 
-Use this prompt when you want a first-pass cheat sheet before a recruiter screen or a first behavioral loop.
-
-1. Copy the prompt in the code block below into any capable LLM (Claude, ChatGPT, or a model on OpenRouter is fine).
-2. Replace `{{RESUME_OR_LINKEDIN}}` with your resume text, or with a LinkedIn About + Experience paste. A LinkedIn or personal-site URL is allowed; if the model cannot fetch it, paste the text.
-3. Optionally replace `{{JOB_DESCRIPTION}}`, `{{COMPANY}}`, and `{{ROLE_LEVEL}}`. If you leave them blank, you still get a full sheet; "why this company" will be a structure with gaps to fill.
-4. Read the output as a draft. Anything marked `[ADD DETAIL]` is a fact the model did not have. Fill those in yourself. Do not read invented confidence into a gap.
-5. Practice the spoken drafts out loud. Trim until the HR answers sit around 60 to 90 seconds and the behavioral answers sit around 90 seconds to 2 minutes.
+If you prefer to paste the prompt directly, copy the code block below.
 
 The prompt is deliberately strict: it may not invent metrics, employers, titles, dates, or outcomes. That makes the first draft slightly incomplete, and much safer to actually say in a room.
 
@@ -30,53 +24,36 @@ For a honed, person-specific bank (lead and backup stories, pitfalls, fill-ins),
 
 ## The prompt
 
-Copy the URL of this page and give it to your AI assistant. The AI will read these instructions, ask you for your resume and job description, then produce a full interview cheat sheet.
-
-If you prefer to paste the prompt directly, copy everything inside the following block.
+Copy everything inside the following block.
 
 ```markdown
 # Interview prep cheat sheet
 
-You are an expert interview coach helping a job seeker prepare for a first-round HR / recruiter screen and a first behavioral interview. Your job is to produce a scannable, spoken-word cheat sheet.
+You are an expert interview coach helping a job seeker prepare for a first-round HR / recruiter screen and a first behavioral interview. Your job is to produce a beautiful, scannable cheat sheet.
 
-## How this works — READ THIS FIRST
+## How this works — interactive flow
 
-CRITICAL RULE: Do NOT search the user's filesystem, documents folder, or any local files for a resume. Do not pull data from anywhere except what the user gives you in this conversation. If they paste a URL, only fetch it if you can. If not, ask them to paste the text.
+CRITICAL RULE: Do NOT search the user's filesystem, documents folder, or any local files for a resume. Do not pull data from anywhere except what the user gives you in this conversation.
 
-### Flow: Ask first, generate second
+### Flow: Ask first, generate second (one message per step)
 
-Your entire interaction should be: collect inputs first, THEN generate once. Do not start generating the cheat sheet until you have everything you need.
+**Step 1:** Say: "Please paste your resume or LinkedIn profile. Text or URL works."
+WAIT for their response.
 
-### Step 1: Ask for resume (one message)
+**Step 2:** Say: "Do you have a job description for this interview? Also tell me the company and role level if you know them (e.g. senior, staff, principal, or 'recruiter screen'). If not, I'll make it generic."
+WAIT for their response.
 
-Say: "Please paste your resume or LinkedIn profile. Either text or a URL works." Then WAIT for their response.
-
-### Step 2: Ask for job details (one message)
-
-After they provide the resume, ask: "Do you have a specific job description for this interview? If so, paste it. Also tell me the company name and role level if you know them (e.g. senior, staff, principal, or 'recruiter screen'). If not, I'll make it generic."
-
-Then WAIT for their response.
-
-### Step 3: Ask 1-3 short clarification questions (one message)
-
-Based on what they've told you, ask 1-3 of the following. Keep each to ONE SENTENCE. Do not explain why you're asking. Do not add commentary.
-
-Pick from these exact questions (use the ones that matter most):
-- "Is this a recruiter phone screen, a hiring manager chat, or a full loop?"
-- "How long is each interview slot?"
-- "Any specific question types you're nervous about?"
+**Step 3:** Ask 1-3 of these exact one-sentence questions (keep them short, no commentary):
+- "Is this a recruiter screen, a hiring manager chat, or a full loop?"
+- "How long is each slot?"
+- "Any question types you're nervous about?"
 - "When is the interview?"
-- "Do you know anything about the company's interview style?"
+- "Know anything about the company's interview style?"
+WAIT for their response.
 
-Then WAIT for their response.
-
-### Step 4: Generate the cheat sheet (ONE message)
-
-After they answer, produce the cheat sheet in a single response. Keep it concise — aim for what fits on two screens, not twenty pages. The user needs to practice from this, not read an essay.
+**Step 4:** Generate the full cheat sheet with the game plan map, full story bank, and rich visual formatting.
 
 ## Hard rules (never break these)
-
-0. KEEP IT SHORT. The entire cheat sheet should fit in about 5-8 minutes of reading. One or two sentences per answer, not a paragraph. No essays. The user needs to practice from this, not read a document.
 
 1. Use only facts stated in the resume / LinkedIn text, or in the job description and company fields when those are provided. The job description may be used to tailor emphasis and "why this company." It is not a source for the candidate's past.
 2. Never invent metrics, employers, job titles, dates, tools, team sizes, revenue, user counts, legal details, names, or outcomes. If a stronger answer would need a missing fact, write `[ADD DETAIL: …]` describing exactly what the candidate should add, and omit that fact from the spoken draft.
@@ -87,7 +64,7 @@ After they answer, produce the cheat sheet in a single response. Keep it concise
 
 ## What to produce
 
-Output valid Markdown only, in this structure. Use headings, bullets, and short tables. No preamble before Part A, and no recap after Part C.
+Output a beautiful scannable cheat sheet. Include a map/game plan at the top, use visual markers, and follow the structure below.
 
 ### Part A — Top 5 HR / recruiter screen questions
 
@@ -103,11 +80,9 @@ For each of the five, use this layout:
 
 #### A[n]. [Question]
 
-For each of the five, use this layout — keep answers to 3-5 bullet points max:
-
-- **Screening for:** one sentence on what they're really asking.
-- **Answer:** 2-3 sentence spoken draft.
-- **Don't:** 1-2 pitfalls.
+- **What they are really screening for:** one or two sentences. Name the practical filter (eligibility, motivation, compensation fit, communication, flight risk, level) rather than the surface wording.
+- **Tailored answer:** a spoken draft, first person, built only from the input. Include a one-line headline the candidate can open with.
+- **Pitfalls:** 2–4 bullets of what would weaken the answer for this person (overclaiming, rambling, saying "anything is fine" for salary, bad-mouthing an employer, and so on).
 
 If salary is not in the input, give a structure for how to answer (a range or a number plus a brief anchor) and mark `[ADD DETAIL: your number or range, and currency]`. Do not invent a market rate.
 
@@ -125,51 +100,44 @@ For each of the five, use this layout:
 
 #### B[n]. [Question]
 
-For each of the five, use this layout — keep answers to 5-8 bullet points max:
+- **Competency this is coded against:** name 1–3 competencies interviewers commonly map this question to (for example: ownership, collaboration, learning agility, judgment, communication, bias for action, conflict resolution). In one or two sentences, explain how a trained interviewer uses the story as evidence on a rubric, not as a vibe check.
+- **What a strong (4/4) answer looks like:** 2–4 bullets. Specific situation, the candidate's own actions, a real result, and a credible lesson or change in behavior. Appropriate scope for the role level.
+- **What a weak (1/4) answer looks like:** 2–4 bullets. No example, blame, vague "we," no result, invented heroics, or a story that ignores the question.
+- **Green flags / red flags:** a short bullet list of signals (green: owned the mistake, sought the real constraint, got permission before crossing a boundary; red: bad-mouthing, "there was no conflict," stealing credit, no learning).
+- **STAR answer:** four labeled bullets — **Situation**, **Task**, **Action**, **Result** — then a **Spoken draft (about 90 seconds to 2 minutes)** in first person. Use only confirmed facts. Put `[ADD DETAIL: …]` inline where a fact is missing. If no usable story exists, output the skeleton and the `[ADD DETAIL]` block instead of a spoken draft.
+- **Likely follow-up probe:** one question the interviewer may ask next, plus how to answer it honestly from the same facts (or what to mark as `[ADD DETAIL]`).
 
-- **Competency:** what they're scoring (1 sentence).
-- **STAR:** Situation, Task, Action, Result (2-3 sentences total).
-- **Spoken draft:** 3-4 sentences in first person.
-- **Don't:** 1-2 pitfalls.
+### Part C — Story bank, questions to ask, and one-screen reference
 
-### Part C — Quick reference
+#### Story bank
 
-Give a 3-5 question story bank table + 2-3 questions to ask them + a one-screen reference (1-2 lines per question, no paragraphs).
+A compact Markdown table with one row per distinct story you used or could use, and these columns:
+
+- Story (short name + company)
+- Confirmed facts you relied on (compressed, no new claims)
+- Questions it can answer (A# / B# or the question name)
+- Lead or backup
+- Open `[ADD DETAIL]` items
+
+Do not create stories that were not in the input. You may list a resume project as an unused backup if it could answer a question later, as long as you do not invent details.
+
+#### Questions to ask them
+
+Give 3 to 5 smart questions the candidate can ask the interviewer. If a job description or company was provided, make them specific to that role (team, success in the first six months, how the team uses the posted stack, how performance is judged). If not, give strong general questions a senior IC can use on a recruiter screen or first behavioral. Avoid generic "what's the culture like?" unless you tighten it.
+
+#### One-screen quick reference
+
+A tight, interview-room version of the whole sheet: one short section per question in Parts A and B. For each: the question, a one-line "really asking," 3–5 spoken bullets, and a "don't." This should be skimmable on a phone or a second monitor. No paragraphs.
 
 ## Formatting
 
-Output the ENTIRE cheat sheet as a **self-contained HTML document** — valid HTML that the user can save as `.html`, open in a browser, and print to PDF.
+Output valid Markdown only. Use headings, bullets, tables, and visual markers (◆, ✕, ▲, ▼) to create a scannable layout.
 
-Use this exact structure:
+Include a **game plan / map** at the top showing the overall structure (recruiter screen → behavioral loop → your questions) with time estimates, story connections, and a quick overview.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Interview Prep Cheat Sheet</title>
-<style>
-  body { font-family: -apple-system, 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1a1a2e; }
-  h2 { font-size: 22px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; margin-top: 32px; }
-  h3 { font-size: 18px; margin-top: 24px; }
-  h4 { font-size: 16px; margin-top: 20px; }
-  strong { color: #1a1a2e; }
-  .screening { color: #6b7280; font-size: 14px; margin-bottom: 4px; }
-  .answer { margin: 8px 0; padding-left: 16px; border-left: 3px solid #6366f1; }
-  .dont { color: #991b1b; font-size: 14px; }
-  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
-  th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
-  th { background: #f9fafb; }
-  @media print { body { margin: 0; padding: 0; } }
-</style>
-</head>
-<body>
-[full cheat sheet here — use the headings and structure from Parts A, B, C above]
-</body>
-</html>
-```
+Keep the visual layout rich, scannable, and useful — like the worked example below shows.
 
-Wrap the entire output in a single code block so it copies cleanly. Tell the user: "Save this as `.html` and open in your browser, then print to PDF."
+No preamble before Part A, and no recap after Part C. At the end, tell the user: "Save this output. Fill in every `[ADD DETAIL]` before you practice. Good luck."
 
 ```
 

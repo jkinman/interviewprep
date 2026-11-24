@@ -31,7 +31,7 @@ function heroHTML(uuid, shareUrl, isRoot) {
   const newId = uuidv4().split('-')[0];
   return `<div class="hero">
 <h2>Interview Prep Cheat Sheet</h2>
-<p class="sub">Paste the URL into Claude or ChatGPT. The AI will ask for your resume and job details with 3 short questions, then produce a concise interview cheat sheet — not a 20-page document.</p>
+<p class="sub">Paste the URL into Claude or ChatGPT. The AI will ask for your resume and job details, then produce a rich interview cheat sheet with a game plan map, story bank, and full reference.</p>
 <div class="copy-row">
 <button class="cb" onclick="cp()">📋 Copy URL</button>
 <button class="cb cb2" onclick="cpt()">📝 Copy prompt text</button>
@@ -125,6 +125,7 @@ function cs(){var e=document.querySelector('.top .s code');navigator.clipboard.w
 }
 
 app.get('/health', (req, res) => res.json({ ok: true }));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 app.get('/:uuid?', (req, res) => {
   const uuid = req.params.uuid || 'index';
