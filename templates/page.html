@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Prep Cheat Sheet</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;line-height:1.7;color:#1a1a2e;background:#f8f9fa}
+.top-bar{background:#1a1a2e;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.top-bar h1{font-size:18px;font-weight:600}
+.top-bar .share{font-size:13px;color:#9ca3af}
+.top-bar .share code{background:rgba(255,255,255,0.1);padding:2px 8px;border-radius:4px;cursor:pointer}
+.top-bar .share code:hover{background:rgba(255,255,255,0.2)}
+.container{max-width:880px;margin:0 auto;padding:0 24px 80px}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#2d2a5e 100%);color:#fff;padding:40px 40px 48px;border-radius:0 0 24px 24px;margin:0 -24px 32px}
+.hero h2{font-size:26px;font-weight:700;margin-bottom:6px}
+.hero .subtitle{color:#a5b4fc;font-size:15px;margin-bottom:24px}
+.hero .prompt-box{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:20px 24px;margin-bottom:20px}
+.hero .prompt-box .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#a5b4fc;margin-bottom:8px}
+.hero .prompt-box .preview{font-family:'SF Mono','Fira Code',monospace;font-size:13px;color:#c7d2fe;line-height:1.5;max-height:120px;overflow:hidden;position:relative}
+.hero .prompt-box .preview::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(transparent,rgba(255,255,255,0.08))}
+.hero .copy-btn{display:inline-flex;align-items:center;gap:8px;background:#6366f1;color:#fff;border:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background .15s;width:100%;justify-content:center}
+.hero .copy-btn:hover{background:#4f46e5}
+.hero .copy-btn.copied{background:#059669}
+.instructions{margin-top:24px;padding:20px 24px;background:rgba(255,255,255,0.06);border-radius:12px;border:1px solid rgba(255,255,255,0.1)}
+.instructions h3{font-size:14px;font-weight:600;color:#a5b4fc;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.instructions ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.instructions li{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:#e0e7ff;line-height:1.5}
+.instructions li .num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:rgba(99,102,241,0.3);border-radius:50%;font-size:12px;font-weight:700;color:#a5b4fc;flex-shrink:0}
+.instructions li code{background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;font-size:13px}
+.hero .refine{margin-top:16px;font-size:13px;color:#7c8a9f;text-align:center}
+.hero .refine code{background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;cursor:pointer;font-size:12px}
+.hero .refine a{color:#a5b4fc;text-decoration:none}
+.hero .refine a:hover{text-decoration:underline}
+.content{background:#fff;padding:32px 40px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.content h1{font-size:28px;margin:0 0 16px;color:#1a1a2e}
+.content h2{font-size:22px;margin:32px 0 12px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}
+.content h3{font-size:18px;margin:24px 0 8px;color:#374151}
+.content h4{font-size:16px;margin:20px 0 6px;color:#374151}
+.content p{margin:12px 0}
+.content ul,.content ol{margin:8px 0 8px 24px}
+.content li{margin:4px 0}
+.content code{background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:.9em}
+.content pre{background:#1a1a2e;color:#e5e7eb;padding:16px 20px;border-radius:8px;overflow-x:auto;margin:16px 0}
+.content pre code{background:none;padding:0;font-size:14px}
+.content blockquote{border-left:4px solid #6366f1;padding-left:16px;margin:16px 0;color:#6b7280}
+.content table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.content th,.content td{border:1px solid #e5e7eb;padding:8px 12px;text-align:left}
+.content th{background:#f9fafb;font-weight:600}
+.footer{text-align:center;padding:40px 24px;color:#9ca3af;font-size:13px}
+.footer a{color:#6366f1;text-decoration:none}
+@media(max-width:640px){.container{padding:0 12px 80px}.content{padding:20px}.content h1{font-size:22px}.hero{padding:24px 20px 32px}.hero h2{font-size:20px}.top-bar{flex-direction:column;gap:6px;text-align:center}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+<h1>Interview Prep Cheat Sheet</h1>
+__SHARE_SPAN__
+</div>
+<div class="container">
+
+<div class="hero">
+<h2>Interview Prep Cheat Sheet</h2>
+<p class="subtitle">A reusable prompt for Claude, ChatGPT, or any LLM — turns your resume into a scannable interview cheat sheet.</p>
+
+<div class="prompt-box">
+<div class="label">The prompt</div>
+<div class="preview"># Interview prep cheat sheet<br><br>You are an expert interview coach helping a job seeker prepare for a first-round HR / recruiter screen and a first behavioral interview&hellip;</div>
+</div>
+
+<button class="copy-btn" onclick="copyPrompt()">📋 Copy prompt for AI</button>
+
+<div class="instructions">
+<h3>How to use</h3>
+<ul>
+<li><span class="num">1</span> Click <strong>Copy prompt for AI</strong> above &mdash; the entire prompt goes to your clipboard.</li>
+<li><span class="num">2</span> Paste it into<strong>Claude, ChatGPT, or any LLM</strong>. The modelalready understands this format<li>
+<li><span class="num">3</span> Replace<code>{{RESUME_OR_LINEDIN}}</code>with your resume text or aLinkedIn paste.</li
+<li><spanclass="num">4</span>Optionally fill in <code>{{JOB_DESCRIPTIONCode>,<code>{{COMPANY}}</code>,<code{ROLE_LEVEL}}</code> to tailor it.</li>
+<li><span class="num">5</span> You get back:<strong>Top 5 HR questions</strong> · <strong>Top 5 behavioral questions with STAR answers</strong> · <strong>One-screen quick reference</strong></li
+</ul></div>
+
+<div class="refine">
+Share this link: <code onclick="navigator.clipboard.writeText(this.textContent)">__SHARE_URL__</code>
+__NAV_LINKS__
+</div></div>
+
+<div class="content">
+__CONTENT__
+</div></div>
+
+<div class="footer">
+Built from <a href="https://github.com/jkinman/interviewprep">interviewprep</a>
+</div>
+
+<span id="prompt-text" style="display:none">__PROMPT_BLOCK__</span>
+
+<script>
+function copyPrompt(){var b=document.querySelector('.copy-btn'),t=document.getElementById('prompt-text').textContent;navigator.clipboard.writeText(t).then(function(){b.textContent='\u2705 Copied!';b.classList.add('copied');setTimeout(function(){b.textContent='\U0001f4cb Copy prompt for AI';b.classList.remove('copied')},2000)}).catch(function(){b.textContent='\u274c Copy failed';setTimeout(function(){b.textContent='\U0001f4cb Copy prompt for AI';b.classList.remove('copied')},3000)})}
+function copyShare(){var e=document.querySelector('.top-bar .share code');navigator.clipboard.writeText(e.textContent);e.textContent='Copied!';setTimeout(function(){e.textContent='__SHARE_URL__'},1500)}
+</script>
+</body>
+</html>
