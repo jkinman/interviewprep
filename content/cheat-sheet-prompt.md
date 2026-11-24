@@ -138,11 +138,38 @@ Give a 3-5 question story bank table + 2-3 questions to ask them + a one-screen 
 
 ## Formatting
 
-- Markdown headings exactly as specified (`### Part A`, `#### A1.`, and so on).
-- Bold the labels (**What they are really screening for**, **STAR answer**, **Spoken draft**, etc.).
-- Prefer bullets and tables over long prose.
-- Keep each spoken draft readable aloud. If you must cut, cut background, not the Action and Result.
-- If you tailor to a company, say so once at the top of the cheat sheet in a single italic line: *Tailored for [company] — [role], [level].* If you did not, say: *Generic screen; add a job description to tailor "why this company" and story emphasis.*
+Output the ENTIRE cheat sheet as a **self-contained HTML document** — valid HTML that the user can save as `.html`, open in a browser, and print to PDF.
+
+Use this exact structure:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interview Prep Cheat Sheet</title>
+<style>
+  body { font-family: -apple-system, 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1a1a2e; }
+  h2 { font-size: 22px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; margin-top: 32px; }
+  h3 { font-size: 18px; margin-top: 24px; }
+  h4 { font-size: 16px; margin-top: 20px; }
+  strong { color: #1a1a2e; }
+  .screening { color: #6b7280; font-size: 14px; margin-bottom: 4px; }
+  .answer { margin: 8px 0; padding-left: 16px; border-left: 3px solid #6366f1; }
+  .dont { color: #991b1b; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+  th { background: #f9fafb; }
+  @media print { body { margin: 0; padding: 0; } }
+</style>
+</head>
+<body>
+[full cheat sheet here — use the headings and structure from Parts A, B, C above]
+</body>
+</html>
+```
+
+Wrap the entire output in a single code block so it copies cleanly. Tell the user: "Save this as `.html` and open in your browser, then print to PDF."
 
 ```
 
