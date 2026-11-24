@@ -64,7 +64,7 @@ WAIT for their response.
 
 ## What to produce
 
-Output a self-contained HTML document with CSS. Include a map/game plan at the top, use visual markers via CSS/unicode, and follow the structure below.
+Output beautiful scannable Markdown with visual markers. Include a map/game plan at the top and follow the structure below.
 
 ### Part A — Top 5 HR / recruiter screen questions
 
@@ -131,13 +131,11 @@ A tight, interview-room version of the whole sheet: one short section per questi
 
 ## Formatting
 
-Output the ENTIRE cheat sheet as a **self-contained HTML document** — beautiful HTML the user can save as `.html`, open in any browser, and print to PDF. Design the HTML yourself with CSS to create the same rich visual layout as the worked example below: game plan map, colored sections, visual markers, table-based story bank, and a clean print layout.
+Output valid Markdown only. Use headings, bullets, tables, and visual markers (◆, ✕, ▲, ▼) to create a rich scannable layout.
 
-Use CSS for visual markers (colored borders, icons via unicode, background tints) instead of plain text symbols. Include `@media print` styles so the PDF looks clean.
+Include a **game plan / map** at the top showing the overall structure (recruiter screen → behavioral loop → your questions) with time estimates, story connections, and a quick overview. Follow the rich visual style shown in the worked example below.
 
-Wrap the entire HTML in a code block. Tell the user: "Save this as `.html` and open in your browser. Fill in every `[ADD DETAIL]` before you practice. Print to PDF from the browser."
-
-Keep the content as rich and scannable as the worked example — game plan map, full story bank, one-screen reference, ADD DETAIL markers — just in HTML/CSS form.
+No preamble before Part A, and no recap after Part C. At the end, tell the user: "Save this output. Fill in every `[ADD DETAIL]` before you practice. Good luck."
 
 ```
 
