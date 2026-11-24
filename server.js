@@ -33,10 +33,14 @@ function heroHTML(uuid, shareUrl, isRoot) {
 <h2>Interview Prep Cheat Sheet</h2>
 <p class="sub">Paste the URL into Claude or ChatGPT. The AI will ask for your resume and job details with 3 short questions, then produce a concise interview cheat sheet — not a 20-page document.</p>
 <div class="pb"><div class="l">The prompt</div><div class="pv">You are an expert interview coach… Ask first, generate second. Keep it short.</div></div>
-<button class="cb" onclick="cp()">📋 Copy URL, paste into any AI</button>
+<div class="copy-row">
+<button class="cb" onclick="cp()">📋 Copy URL</button>
+<button class="cb cb2" onclick="cpt()">📝 Copy prompt text</button>
+</div>
+<div style="margin-top:10px;font-size:13px;color:rgba(255,255,255,0.5);text-align:center">URL works in Claude/ChatGPT with browsing. Prompt text works anywhere — paste it into any LLM chat.</div>
 <div class="in"><h3>How it works</h3><ul>
-<li><span class="n">1</span> Click the button to copy this page's URL.</li>
-<li><span class="n">2</span> Paste it into <strong>Claude, ChatGPT, or any LLM</strong>.</li>
+<li><span class="n">1</span> Click <strong>Copy URL</strong> (Claude/ChatGPT with browsing) or <strong>Copy prompt text</strong> (any LLM).</li>
+<li><span class="n">2</span> Paste into <strong>Claude, ChatGPT, or any LLM</strong>.</li>
 <li><span class="n">3</span> The AI asks for your <strong>resume</strong> (1 message).</li>
 <li><span class="n">4</span> Then asks about the <strong>job description</strong> (1 message).</li>
 <li><span class="n">5</span> Then asks <strong>1-3 short questions</strong> about the interview format.</li>
@@ -73,8 +77,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-
 .hero .pb .l{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#a5b4fc;margin-bottom:8px}
 .hero .pb .pv{font-family:'SF Mono','Fira Code',monospace;font-size:13px;color:#c7d2fe;line-height:1.5;max-height:120px;overflow:hidden;position:relative}
 .hero .pb .pv::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(transparent,rgba(255,255,255,0.08))}
-.hero .cb{display:inline-flex;align-items:center;gap:8px;background:#6366f1;color:#fff;border:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;width:100%;justify-content:center;transition:background .15s}
-.hero .cb:hover{background:#4f46e5}.hero .cb.d{background:#059669}
+.copy-row{display:flex;gap:10px}
+.hero .cb,.hero .cb2{display:inline-flex;align-items:center;gap:8px;background:#6366f1;color:#fff;border:none;padding:14px 20px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;flex:1;justify-content:center;transition:background .15s}
+.hero .cb:hover,.hero .cb2:hover{background:#4f46e5}
+.hero .cb.d,.hero .cb2.d{background:#059669}
+.hero .cb2{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2)}
+.hero .cb2:hover{background:rgba(255,255,255,0.2)}
 .in{margin-top:24px;padding:20px 24px;background:rgba(255,255,255,0.06);border-radius:12px;border:1px solid rgba(255,255,255,0.1)}
 .in h3{font-size:14px;font-weight:600;color:#a5b4fc;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
 .in ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
@@ -108,7 +116,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-
 <div class="ft">Built from <a href="https://github.com/jkinman/interviewprep">interviewprep</a></div>
 <span id="pt" style="display:none">${pEsc}</span>
 <script>
-function cp(){var b=document.querySelector('.hero .cb'),u='${shareUrl}';navigator.clipboard.writeText(u).then(function(){b.textContent='✅ URL copied!';b.classList.add('d');setTimeout(function(){b.textContent='📋 Copy URL for AI';b.classList.remove('d')},2000)}).catch(function(){b.textContent='❌ Copy failed';setTimeout(function(){b.textContent='📋 Copy URL for AI';b.classList.remove('d')},3000)})}
+function cp(){var b=document.querySelector('.hero .cb'),u='${shareUrl}';navigator.clipboard.writeText(u).then(function(){b.textContent='✅ Copied!';b.classList.add('d');setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('d')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('d')},3000)})}
+function cpt(){var b=document.querySelector('.hero .cb2'),t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(function(){b.textContent='✅ Copied!';b.classList.add('d');setTimeout(function(){b.textContent='📝 Copy prompt text';b.classList.remove('d')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📝 Copy prompt text';b.classList.remove('d')},3000)})}
 function cs(){var e=document.querySelector('.top .s code');navigator.clipboard.writeText(e.textContent);e.textContent='Copied!';setTimeout(function(){e.textContent='${shareUrl}'},1500)}
 </script></body></html>`;
 }
