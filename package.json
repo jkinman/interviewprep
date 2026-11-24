@@ -1,0 +1,17 @@
+{
+  "name": "interviewprep",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interview Prep Cheat Sheet — reusable prompt for generating interview prep materials",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "marked": "^15.0.0",
+    "highlight.js": "^11.10.0",
+    "uuid": "^10.0.0"
+  }
+}
