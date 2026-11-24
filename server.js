@@ -32,7 +32,6 @@ function heroHTML(uuid, shareUrl, isRoot) {
   return `<div class="hero">
 <h2>Interview Prep Cheat Sheet</h2>
 <p class="sub">Paste the URL into Claude or ChatGPT. The AI will ask for your resume and job details with 3 short questions, then produce a concise interview cheat sheet — not a 20-page document.</p>
-<div class="pb"><div class="l">The prompt</div><div class="pv">You are an expert interview coach… Ask first, generate second. Keep it short.</div></div>
 <div class="copy-row">
 <button class="cb" onclick="cp()">📋 Copy URL</button>
 <button class="cb cb2" onclick="cpt()">📝 Copy prompt text</button>
