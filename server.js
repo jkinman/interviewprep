@@ -31,16 +31,16 @@ function heroHTML(uuid, shareUrl, isRoot) {
   const newId = uuidv4().split('-')[0];
   return `<div class="hero">
 <h2>Interview Prep Cheat Sheet</h2>
-<p class="sub">An interactive AI prompt. Give the URL to Claude or ChatGPT — the AI will ask for your resume, job description, and 1-5 clarification questions, then produce a complete interview cheat sheet.</p>
-<div class="pb"><div class="l">The prompt</div><div class="pv">You are an expert interview coach… you'll collect information interactively, then produce a scannable cheat sheet.</div></div>
-<button class="cb" onclick="cp()">📋 Copy URL for AI</button>
-<div class="in"><h3>How to use</h3><ul>
-<li><span class="n">1</span> Click <strong>Copy URL for AI</strong> above — the URL of this page goes to your clipboard.</li>
-<li><span class="n">2</span> Paste it into <strong>Claude, ChatGPT, or any LLM</strong>. The AI reads the instructions from this page.</li>
-<li><span class="n">3</span> The AI will ask for your <strong>resume</strong> — paste it when prompted.</li>
-<li><span class="n">4</span> The AI will ask if you have a <strong>job description</strong> to tailor the sheet toward (optional).</li>
-<li><span class="n">5</span> The AI will ask <strong>1-5 clarification questions</strong> about the interview format, company, and areas you want to focus on.</li>
-<li><span class="n">6</span> The AI generates: <strong>Top 5 HR questions</strong> · <strong>Top 5 behavioral questions with STAR answers</strong> · <strong>One-screen quick reference</strong></li>
+<p class="sub">Paste the URL into Claude or ChatGPT. The AI will ask for your resume and job details with 3 short questions, then produce a concise interview cheat sheet — not a 20-page document.</p>
+<div class="pb"><div class="l">The prompt</div><div class="pv">You are an expert interview coach… Ask first, generate second. Keep it short.</div></div>
+<button class="cb" onclick="cp()">📋 Copy URL, paste into any AI</button>
+<div class="in"><h3>How it works</h3><ul>
+<li><span class="n">1</span> Click the button to copy this page's URL.</li>
+<li><span class="n">2</span> Paste it into <strong>Claude, ChatGPT, or any LLM</strong>.</li>
+<li><span class="n">3</span> The AI asks for your <strong>resume</strong> (1 message).</li>
+<li><span class="n">4</span> Then asks about the <strong>job description</strong> (1 message).</li>
+<li><span class="n">5</span> Then asks <strong>1-3 short questions</strong> about the interview format.</li>
+<li><span class="n">6</span> AI generates a <strong>concise cheat sheet</strong> — HR questions, behavioral STARs, quick reference.</li>
 </ul></div>
 <div class="ref">Share: <code onclick="navigator.clipboard.writeText(this.textContent)">${shareUrl}</code>${isRoot ? ` · <a href="/${newId}">New shareable version</a>` : ' · <a href="/">Home</a>'}</div>
 </div>`;
