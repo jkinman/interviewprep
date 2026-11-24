@@ -37,7 +37,7 @@ function heroHTML(uuid, shareUrl, isRoot) {
 <button class="cb" onclick="cp()">📋 Copy URL</button>
 <button class="cb cb2" onclick="cpt()">📝 Copy prompt text</button>
 </div>
-<div style="margin-top:10px;font-size:13px;color:rgba(255,255,255,0.5);text-align:center">URL works in Claude/ChatGPT with browsing. Prompt text works anywhere — paste it into any LLM chat.</div>
+<div style="margin-top:10px;font-size:13px;color:rgba(255,255,255,0.5);text-align:center">URL works in Claude/ChatGPT with browsing. On mobile? Tap <strong>Copy prompt text</strong> then paste into any LLM app.</div>
 <div class="in"><h3>How it works</h3><ul>
 <li><span class="n">1</span> Click <strong>Copy URL</strong> (Claude/ChatGPT with browsing) or <strong>Copy prompt text</strong> (any LLM).</li>
 <li><span class="n">2</span> Paste into <strong>Claude, ChatGPT, or any LLM</strong>.</li>
@@ -47,6 +47,9 @@ function heroHTML(uuid, shareUrl, isRoot) {
 <li><span class="n">6</span> AI generates a <strong>concise cheat sheet</strong> — HR questions, behavioral STARs, quick reference.</li>
 </ul></div>
 <div class="ref">Share: <code onclick="navigator.clipboard.writeText(this.textContent)">${shareUrl}</code>${isRoot ? ` · <a href="/${newId}">New shareable version</a>` : ' · <a href="/">Home</a>'}</div>
+<div style="margin-top:12px;padding:12px 16px;background:rgba(255,255,255,0.05);border-radius:8px;font-size:12px;color:#a5b4fc;text-align:center">
+Install as a reusable skill: <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;cursor:pointer" onclick="navigator.clipboard.writeText('npx skills add https://github.com/jkinman/interviewprep')">npx skills add https://github.com/jkinman/interviewprep</code>
+</div>
 </div>`;
 }
 
