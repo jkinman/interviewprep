@@ -5,14 +5,13 @@ const { marked } = require('marked');
 const hljs = require('highlight.js');
 const { v4: uuidv4 } = require('uuid');
 
-// Read Sugar Glider logo (48x48 PNG, base64)
 let SG_LOGO_B64 = '';
 try {
   const logoBuf = fs.readFileSync(path.join(__dirname, 'static', 'sugar-glider-logo-48.png'));
   SG_LOGO_B64 = logoBuf.toString('base64');
-  console.log(`Sugar Glider logo loaded: ${SG_LOGO_B64.length} base64 chars`);
+  console.log(`Logo loaded: ${SG_LOGO_B64.length}b64`);
 } catch (e) {
-  console.warn('Sugar Glider logo not found, skipping.');
+  console.warn('No logo found, skipping.');
 }
 
 const app = express();
@@ -36,102 +35,141 @@ function extractPrompt(raw) {
   return m ? m[1] : raw;
 }
 
-/* Build the hero HTML (prompt + instructions + copy button) */
-function heroHTML(uuid, shareUrl, isRoot) {
-  const newId = uuidv4().split('-')[0];
-  return `<div class="hero">
-<h2>Interview Prep Cheat Sheet</h2>
-<p class="sub">Paste the URL into Claude or ChatGPT. The AI will ask for your resume and job details, then produce a rich interview cheat sheet with a game plan map, story bank, and full reference.</p>
-<div class="copy-row">
-<button class="cb" onclick="cp()">📋 Copy URL</button>
-<button class="cb cb2" onclick="cpt()">📝 Copy prompt text</button>
-</div>
-<div style="margin-top:10px;font-size:13px;color:rgba(255,255,255,0.5);text-align:center">URL works in Claude/ChatGPT with browsing. On mobile? Tap <strong>Copy prompt text</strong> then paste into any LLM app.</div>
-<div class="in"><h3>How it works</h3><ul>
-<li><span class="n">1</span> Click <strong>Copy URL</strong> (Claude/ChatGPT with browsing) or <strong>Copy prompt text</strong> (any LLM).</li>
-<li><span class="n">2</span> Paste into <strong>Claude, ChatGPT, or any LLM</strong>.</li>
-<li><span class="n">3</span> The AI asks for your <strong>resume</strong> (1 message).</li>
-<li><span class="n">4</span> Then asks about the <strong>job description</strong> (1 message).</li>
-<li><span class="n">5</span> Then asks <strong>1-3 short questions</strong> about the interview format.</li>
-<li><span class="n">6</span> AI generates a <strong>concise cheat sheet</strong> — HR questions, behavioral STARs, quick reference.</li>
-</ul></div>
-<div class="ref">Share: <code onclick="navigator.clipboard.writeText(this.textContent)">${shareUrl}</code>${isRoot ? ` · <a href="/${newId}">New shareable version</a>` : ' · <a href="/">Home</a>'}</div>
-<div style="margin-top:12px;padding:12px 16px;background:rgba(255,255,255,0.05);border-radius:8px;font-size:12px;color:#a5b4fc;text-align:center">
-Install as a reusable skill: <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;cursor:pointer" onclick="navigator.clipboard.writeText('npx skills add https://github.com/jkinman/interviewprep')">npx skills add https://github.com/jkinman/interviewprep</code>
-</div>
-</div>`;
-}
-
 function renderPage(content, uuid, promptBlock) {
   const isRoot = uuid === 'index';
   const shareUrl = `https://interviewprep.kinman.dev/${uuid}`;
-  const hero = heroHTML(uuid, shareUrl, isRoot);
-
-  // Escape prompt for embedding in page
+  const newId = uuidv4().split('-')[0];
   const pEsc = promptBlock.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$').replace(/<\/script>/g, '<\\/script>');
 
-  return `<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Interview Prep Cheat Sheet</title>
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interview Prep · Sugar Glider</title>
 <style>
+:root{
+  --bg:#0A1230;--panel:#111C44;--panel2:#0E173A;--edge:#22306A;--ink:#F4F6FF;--mute:#AEB8DC;--dim:#7F8AB8;
+  --hr:#2FE0FF;--beh:#B98BFF;--story:#6BFF7A;--ask:#FF4FA3;--gap:#FFB020;--bad:#FF6464;
+  --fd:"Barlow Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow",sans-serif;
+  --fb:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --fm:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;line-height:1.7;color:#1a1a2e;background:#f8f9fa}
-.top{background:#1a1a2e;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.top h1{font-size:18px;font-weight:600}
-.top .s{font-size:13px;color:#9ca3af}
-.top .s code{background:rgba(255,255,255,0.1);padding:2px 8px;border-radius:4px;cursor:pointer}
-.top .s code:hover{background:rgba(255,255,255,0.2)}
-.w{max-width:880px;margin:0 auto;padding:0 24px 80px}
-.hero{background:linear-gradient(135deg,#1a1a2e,#2d2a5e);color:#fff;padding:40px 40px 48px;border-radius:0 0 24px 24px;margin:0 -24px 32px}
-.hero h2{font-size:26px;font-weight:700;margin:0 0 6px}
-.hero .sub{color:#a5b4fc;font-size:15px;margin-bottom:24px}
-.hero .pb{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:20px 24px;margin-bottom:20px}
-.hero .pb .l{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#a5b4fc;margin-bottom:8px}
-.hero .pb .pv{font-family:'SF Mono','Fira Code',monospace;font-size:13px;color:#c7d2fe;line-height:1.5;max-height:120px;overflow:hidden;position:relative}
-.hero .pb .pv::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(transparent,rgba(255,255,255,0.08))}
-.copy-row{display:flex;gap:10px}
-.hero .cb,.hero .cb2{display:inline-flex;align-items:center;gap:8px;background:#6366f1;color:#fff;border:none;padding:14px 20px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;flex:1;justify-content:center;transition:background .15s}
-.hero .cb:hover,.hero .cb2:hover{background:#4f46e5}
-.hero .cb.d,.hero .cb2.d{background:#059669}
-.hero .cb2{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2)}
-.hero .cb2:hover{background:rgba(255,255,255,0.2)}
-.in{margin-top:24px;padding:20px 24px;background:rgba(255,255,255,0.06);border-radius:12px;border:1px solid rgba(255,255,255,0.1)}
-.in h3{font-size:14px;font-weight:600;color:#a5b4fc;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.in ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-.in li{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:#e0e7ff;line-height:1.5}
-.in li .n{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:rgba(99,102,241,0.3);border-radius:50%;font-size:12px;font-weight:700;color:#a5b4fc;flex-shrink:0}
-.in li code{background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;font-size:13px}
-.hero .ref{margin-top:16px;font-size:13px;color:#7c8a9f;text-align:center}
-.hero .ref code{background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;cursor:pointer;font-size:12px}
-.hero .ref a{color:#a5b4fc;text-decoration:none}.hero .ref a:hover{text-decoration:underline}
-.c{background:#fff;padding:32px 40px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
-.c h1{font-size:28px;margin:0 0 16px;color:#1a1a2e}
-.c h2{font-size:22px;margin:32px 0 12px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}
-.c h3{font-size:18px;margin:24px 0 8px;color:#374151}
-.c h4{font-size:16px;margin:20px 0 6px;color:#374151}
-.c p{margin:12px 0}
-.c ul,.c ol{margin:8px 0 8px 24px}
-.c li{margin:4px 0}
-.c code{background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:.9em}
-.c pre{background:#1a1a2e;color:#e5e7eb;padding:16px 20px;border-radius:8px;overflow-x:auto;margin:16px 0}
-.c pre code{background:none;padding:0;font-size:14px}
-.c blockquote{border-left:4px solid #6366f1;padding-left:16px;margin:16px 0;color:#6b7280}
-.c table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
-.c th,.c td{border:1px solid #e5e7eb;padding:8px 12px;text-align:left}
-.c th{background:#f9fafb;font-weight:600}
-.ft{text-align:center;padding:40px 24px;color:#9ca3af;font-size:13px}
-.ft a{color:#6366f1;text-decoration:none}
-@media(max-width:640px){.w{padding:0 12px 80px}.c{padding:20px}.c h1{font-size:22px}.hero{padding:24px 20px 32px}.hero h2{font-size:20px}.top{flex-direction:column;gap:6px;text-align:center}}
-</style></head><body>
-<div class="top"><div style="display:flex;align-items:center;gap:10px"><img src="data:image/png;base64,${SG_LOGO_B64}" alt="" style="width:28px;height:28px;border-radius:5px"><div><span style="font-size:10px;color:#a5b4fc;font-weight:600;text-transform:uppercase;letter-spacing:.4px;display:block;line-height:1.1">Sugar Glider</span><h1 style="font-size:15px;font-weight:600;margin:0">Interview Prep</h1></div></div>${isRoot ? `<span class="s">Share: <code onclick="cs()">${shareUrl}</code></span>` : `<span class="s"><code>${uuid}</code></span>`}</div>
-<div class="w">${hero}<div class="c">${content}</div></div>
-<div class="ft">Built from <a href="https://github.com/jkinman/interviewprep">interviewprep</a></div>
+html{background:var(--bg)}body{font:15px/1.6 var(--fb);color:var(--ink);background:radial-gradient(1000px 500px at 80% -10%,#16245A 0%,transparent 60%),var(--bg);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--hr);text-decoration:none}a:hover{opacity:.85}
+code,.mono{font-family:var(--fm);font-size:.9em}
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;padding:10px 28px;background:rgba(10,18,48,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge);font-family:var(--fm);font-size:12px}
+.nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--fd);font-size:18px;font-weight:800;letter-spacing:.5px;margin-right:auto}
+.nav-brand img{width:26px;height:26px;border-radius:4px}
+.nav-brand i{font-style:normal;color:var(--hr)}
+.nav a{color:var(--mute);padding:4px 10px;border-radius:6px}
+.nav a:hover{color:var(--ink);background:var(--panel)}
+.nav .share{color:var(--dim);margin-left:8px}
+.nav .share code{background:var(--panel2);padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid var(--edge);color:var(--mute);font-size:11px}
+.hero{max-width:1100px;margin:0 auto;padding:40px 28px 20px;text-align:center}
+.hero .kicker{font:700 11px var(--fm);letter-spacing:.18em;color:var(--dim);margin-bottom:4px}
+.hero h1{font:800 clamp(32px,5vw,52px)/.95 var(--fd);letter-spacing:1px;margin:4px 0 6px}
+.hero h1 span{color:var(--hr)}
+.hero .sub{font-size:17px;color:var(--mute);margin-bottom:28px}
+.hero .sub strong{color:var(--ink)}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:8px;font:600 15px var(--fb);border:0;cursor:pointer;transition:all .15s;min-width:180px;justify-content:center}
+.btn-p{background:var(--hr);color:#0A1230}.btn-p:hover{background:#8CEFFF}
+.btn-s{background:var(--panel);color:var(--ink);border:1px solid var(--edge)}.btn-s:hover{background:var(--panel2);border-color:var(--dim)}
+.btn.done{background:var(--story);color:#0A1230}
+.instructions{max-width:700px;margin:20px auto 0;padding:24px 28px;background:var(--panel);border:1px solid var(--edge);border-radius:12px;text-align:left}
+.instructions h3{font:700 13px var(--fm);letter-spacing:.12em;color:var(--hr);text-transform:uppercase;margin-bottom:14px}
+.instructions ul{list-style:none;display:grid;gap:10px}
+.instructions li{display:flex;gap:12px;font-size:14px;color:var(--mute);line-height:1.5}
+.instructions li .num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:rgba(47,224,255,0.15);border-radius:50%;font:700 12px var(--fm);color:var(--hr);flex-shrink:0}
+.instructions li code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-family:var(--fm);font-size:12px;border:1px solid var(--edge)}
+.instructions .note{margin-top:12px;padding:10px 14px;background:var(--panel2);border-radius:8px;font-size:13px;color:var(--dim);border:1px dashed var(--edge)}
+.skill-box{margin-top:16px;padding:12px 16px;background:var(--panel2);border-radius:8px;font-size:12px;color:var(--dim);text-align:center;border:1px solid var(--edge)}
+.skill-box code{background:var(--panel);padding:2px 8px;border-radius:4px;cursor:pointer;font-family:var(--fm);border:1px solid var(--edge)}
+.share-row{text-align:center;margin-top:16px;font-size:13px;color:var(--dim)}
+.share-row code{background:var(--panel2);padding:2px 8px;border-radius:4px;cursor:pointer;font-family:var(--fm);border:1px solid var(--edge);color:var(--mute)}
+.share-row a{color:var(--hr);margin:0 4px}
+.content{max-width:880px;margin:20px auto 60px;padding:0 28px}
+.content h1{font:800 28px var(--fd);color:var(--hr);margin:28px 0 8px}
+.content h2{font:700 22px var(--fd);color:var(--beh);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--edge)}
+.content h3{font:700 18px var(--fd);color:var(--ink);margin:20px 0 6px}
+.content h4{font:700 15px var(--fd);color:var(--mute);margin:16px 0 4px}
+.content p{margin:10px 0;color:var(--mute)}
+.content ul,.content ol{margin:6px 0 6px 20px}
+.content li{margin:3px 0;color:var(--mute)}
+.content code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:.85em;border:1px solid var(--edge);color:var(--hr)}
+.content pre{background:var(--panel2);padding:14px 18px;border-radius:8px;overflow-x:auto;margin:12px 0;border:1px solid var(--edge)}
+.content pre code{background:none;border:0;padding:0;color:var(--ink)}
+.content blockquote{border-left:3px solid var(--hr);padding-left:14px;margin:12px 0;color:var(--dim)}
+.content table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.content th,.content td{border:1px solid var(--edge);padding:6px 10px;text-align:left;color:var(--mute)}
+.content th{background:var(--panel);font-weight:600;color:var(--ink)}
+.content strong{color:var(--ink)}
+.content em{color:var(--dim)}
+.ft{text-align:center;padding:32px 24px 48px;color:var(--dim);font-size:12px;border-top:1px solid var(--edge);max-width:1100px;margin:0 auto}
+.ft a{color:var(--mute)}.ft a:hover{color:var(--ink)}
+@media(max-width:640px){
+  .nav{padding:8px 14px;flex-wrap:wrap;gap:6px}
+  .hero{padding:24px 14px 16px}
+  .hero h1{font-size:28px}
+  .btn{min-width:0;width:100%;padding:12px 16px;font-size:14px}
+  .content{padding:0 14px}
+  .instructions{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="nav">
+  <div class="nav-brand">
+    <img src="data:image/png;base64,${SG_LOGO_B64}" alt="">
+    <span>Sugar Glider <i>·</i> Interview Prep</span>
+  </div>
+  <a href="#how">How to use</a>
+  ${isRoot ? `<span class="share">Share: <code onclick="cs()">${shareUrl}</code></span>` : `<span class="share"><code>${uuid}</code></span>`}
+</div>
+<div class="hero">
+  <div class="kicker">INTERVIEW PREP · ${new Date().toISOString().slice(0,10)}</div>
+  <h1>INTERVIEW · <span>GAME PLAN</span></h1>
+  <p class="sub">Paste this link into <strong>Claude</strong>, <strong>ChatGPT</strong>, or any AI &rarr; it asks for your resume &rarr; produces a gorgeous HTML cheat sheet with a game-plan map, story bank, and spoken drafts.</p>
+  <div class="btn-row">
+    <button class="btn btn-p" onclick="cpl()">📋 Copy URL</button>
+    <button class="btn btn-s" onclick="cpt()">📝 Copy as skill text</button>
+  </div>
+  <div class="instructions" id="how">
+    <h3>▸ How to use</h3>
+    <ul>
+      <li><span class="num">1</span> Click <strong>Copy URL</strong> (if your AI can browse) or <strong>Copy as skill text</strong> (works everywhere).</li>
+      <li><span class="num">2</span> Paste into <strong>Claude, ChatGPT, Grok, or any LLM</strong>.</li>
+      <li><span class="num">3</span> The AI asks for your <strong>resume or LinkedIn</strong> (1 message).</li>
+      <li><span class="num">4</span> Then asks about the <strong>job description &amp; company</strong> if you have one.</li>
+      <li><span class="num">5</span> Then asks <strong>1–3 short clarifying questions</strong> about format.</li>
+      <li><span class="num">6</span> AI generates a <strong>dark-navy interactive HTML cheat sheet</strong> — game-plan map, 10 questions with spoken drafts, story bank, quick reference.</li>
+    </ul>
+    <div class="note">💡 On phone? Tap <strong>"Copy as skill text"</strong> — paste into any AI chat app. The full prompt fits in one message.</div>
+  </div>
+  <div class="skill-box">
+    Install as a reusable CLI skill: <code onclick="navigator.clipboard.writeText('npx skills add @jkinman/interviewprep')">npx skills add @jkinman/interviewprep</code>
+  </div>
+  <div class="share-row">
+    Share: <code onclick="navigator.clipboard.writeText(this.textContent)">${shareUrl}</code>
+    ${isRoot ? `· <a href="/${newId}">New share link</a>` : `· <a href="/">Home</a>`}
+  </div>
+</div>
+<div class="content">
+${content}
+</div>
+<div class="ft">
+  <a href="https://github.com/jkinman/interviewprep">interviewprep</a> · a <a href="https://sugarglider.work">Sugar Glider</a> tool
+</div>
 <span id="pt" style="display:none">${pEsc}</span>
 <script>
-function cp(){var b=document.querySelector('.hero .cb'),u='${shareUrl}';navigator.clipboard.writeText(u).then(function(){b.textContent='✅ Copied!';b.classList.add('d');setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('d')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('d')},3000)})}
-function cpt(){var b=document.querySelector('.hero .cb2'),t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(function(){b.textContent='✅ Copied!';b.classList.add('d');setTimeout(function(){b.textContent='📝 Copy prompt text';b.classList.remove('d')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📝 Copy prompt text';b.classList.remove('d')},3000)})}
-function cs(){var e=document.querySelector('.top .s code');navigator.clipboard.writeText(e.textContent);e.textContent='Copied!';setTimeout(function(){e.textContent='${shareUrl}'},1500)}
-</script></body></html>`;
+function cpl(){var b=document.querySelector('.btn-p'),u='${shareUrl}';navigator.clipboard.writeText(u).then(function(){b.textContent='✅ Copied!';b.classList.add('done');setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('done')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('done')},3000)})}
+function cpt(){var b=document.querySelector('.btn-s'),t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(function(){b.textContent='✅ Copied!';b.classList.add('done');setTimeout(function(){b.textContent='📝 Copy as skill text';b.classList.remove('done')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📝 Copy as skill text';b.classList.remove('done')},3000)})}
+function cs(){var e=document.querySelector('.nav .share code');navigator.clipboard.writeText(e.textContent);e.textContent='Copied!';setTimeout(function(){e.textContent='${shareUrl}'},1500)}
+</script>
+</body>
+</html>`;
 }
 
 app.get('/health', (req, res) => res.json({ ok: true }));
@@ -145,6 +183,6 @@ app.get('/:uuid?', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Interview Prep server running on http://0.0.0.0:${PORT}`);
-  console.log(`Content loaded: ${cheatSheetRaw.length} bytes`);
+  console.log(`Interview Prep on http://0.0.0.0:${PORT}`);
+  console.log(`Content: ${cheatSheetRaw.length}b`);
 });
