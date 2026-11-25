@@ -1,0 +1,2445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interview Game Plan</title>
+<style>
+:root {
+  --bg:#0A1230;
+  --panel:#111C44;
+  --panel2:#0E173A;
+  --edge:#22306A;
+  --ink:#F4F6FF;
+  --mute:#AEB8DC;
+  --dim:#7F8AB8;
+  --hr:#2FE0FF;
+  --hr-alt:#8CEFFF;
+  --beh:#B98BFF;
+  --beh-alt:#D6BDFF;
+  --story:#6BFF7A;
+  --ask:#FF4FA3;
+  --c0:#8A94BC;
+  --gap:#FFB020;
+  --bad:#FF6464;
+  --good:#6BFF7A;
+  --star-s:#2FE0FF;
+  --star-t:#FFB020;
+  --star-a:#6BFF7A;
+  --star-r:#FF4FA3;
+  --font-display:"Barlow Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow",sans-serif;
+  --font-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*,::before,::after{box-sizing:border-box;}
+body{
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:16px/1.5 var(--font-body);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--hr);text-decoration:none;}
+a:hover{text-decoration:underline;}
+header,section,article,footer{display:block;}
+.container{max-width:1320px;margin:0 auto;padding:0 1rem;}
+
+/* NAV */
+nav{
+  position:sticky;
+  top:0;
+  z-index:999;
+  background:var(--panel);
+  border-bottom:1px solid var(--edge);
+  padding:0.75rem 0;
+}
+nav .container{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  flex-wrap:wrap;
+}
+.nav-brand{
+  font:700 0.875rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--ink);
+  margin-right:auto;
+}
+.nav-links{display:flex;gap:1rem;flex-wrap:wrap;}
+.nav-links a{
+  font:600 0.875rem var(--font-body);
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  color:var(--mute);
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--hr);text-decoration:none;}
+.nav-toggle{
+  background:var(--panel2);
+  color:var(--ink);
+  border:1px solid var(--edge);
+  padding:0.5rem 1rem;
+  border-radius:8px;
+  font:600 0.875rem var(--font-body);
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.nav-toggle:hover{background:var(--edge);}
+
+/* POSTER HEADER */
+.poster-header{
+  padding:3rem 0 2rem;
+  border-bottom:2px solid var(--edge);
+}
+.kicker{
+  font:600 0.875rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--mute);
+  margin-bottom:0.5rem;
+}
+h1{
+  margin:0 0 0.5rem;
+  font:800 4rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+}
+h1 .dot{color:var(--hr);}
+.subline{
+  font:600 1.125rem var(--font-body);
+  color:var(--dim);
+  margin-bottom:1rem;
+}
+.rule-pill{
+  display:inline-block;
+  background:var(--panel2);
+  border:1px solid var(--edge);
+  padding:0.5rem 1rem;
+  border-radius:8px;
+  font:400 0.875rem var(--font-body);
+  color:var(--mute);
+  margin-bottom:1rem;
+}
+.rule-pill strong{color:var(--good);}
+.tailoring{
+  font:italic 0.9375rem var(--font-body);
+  color:var(--dim);
+  margin-top:1rem;
+}
+
+/* TIMELINE BARS */
+.timeline-bars{margin:2rem 0;}
+.timeline-row{
+  display:flex;
+  margin-bottom:1.5rem;
+}
+.timeline-row-label{
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--mute);
+  margin-bottom:0.5rem;
+}
+.timeline-seg{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:3rem;
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--bg);
+  border-right:1px solid var(--bg);
+  transition:opacity 0.2s;
+}
+.timeline-seg:hover{opacity:0.85;}
+.timeline-ticks{
+  display:flex;
+  margin-top:0.25rem;
+}
+.timeline-tick{
+  font:400 0.625rem var(--font-mono);
+  color:var(--dim);
+  text-align:center;
+}
+.timeline-note{
+  font:italic 0.8125rem var(--font-body);
+  color:var(--dim);
+  margin-top:0.5rem;
+}
+
+/* PHASE CARDS */
+.phase-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+  margin:2rem 0;
+}
+.phase-card{
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-top:8px solid;
+  border-radius:12px;
+  padding:1.5rem;
+  display:flex;
+  flex-direction:column;
+}
+.phase-card-header{
+  display:flex;
+  align-items:baseline;
+  gap:0.75rem;
+  margin-bottom:1rem;
+}
+.phase-pill{
+  display:inline-block;
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  padding:0.25rem 0.5rem;
+  border-radius:4px;
+  background:var(--panel2);
+}
+.phase-title{
+  font:800 1.25rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  margin:0;
+}
+.time-box{
+  font:800 2.5rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.02em;
+  color:var(--mute);
+  margin:0.5rem 0;
+}
+.goal-callout{
+  background:var(--panel2);
+  border-left:4px solid;
+  padding:0.75rem;
+  margin:1rem 0;
+  font:600 0.9375rem var(--font-body);
+  border-radius:4px;
+}
+.phase-tips{
+  list-style:none;
+  padding:0;
+  margin:1rem 0;
+}
+.phase-tips li{
+  position:relative;
+  padding-left:1.25rem;
+  margin-bottom:0.5rem;
+  font:400 0.9375rem var(--font-body);
+  color:var(--mute);
+}
+.phase-tips li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  color:var(--good);
+}
+.dont-box{
+  background:var(--bad);
+  color:var(--bg);
+  padding:0.75rem;
+  border-radius:8px;
+  margin-top:auto;
+  font:700 0.875rem var(--font-body);
+}
+
+/* DIAGRAM */
+.diagram-wrap{
+  overflow-x:auto;
+  margin:2rem 0;
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:12px;
+  padding:1.5rem;
+}
+svg{
+  display:block;
+  min-width:980px;
+  width:100%;
+  height:auto;
+}
+
+/* POSTER BOTTOM */
+.poster-bottom{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.5rem;
+  margin:2rem 0;
+}
+.poster-box{
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:12px;
+  padding:1.5rem;
+}
+.poster-box-title{
+  font:800 1rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  margin:0 0 1rem;
+}
+.story-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem;
+}
+.story-chip{
+  display:inline-block;
+  background:var(--panel2);
+  border:1px solid var(--story);
+  color:var(--story);
+  padding:0.375rem 0.75rem;
+  border-radius:6px;
+  font:600 0.8125rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+}
+.numbers-list{
+  font:400 0.875rem var(--font-mono);
+  color:var(--mute);
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:0.5rem 1rem;
+}
+.phrases{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
+.phrase{
+  font:italic 0.9375rem var(--font-body);
+  color:var(--hr);
+}
+
+/* LEGEND PILLS */
+.legend-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  margin:2rem 0;
+  padding:1rem;
+  background:var(--panel2);
+  border:1px solid var(--edge);
+  border-radius:8px;
+}
+.legend-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font:600 0.8125rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  color:var(--mute);
+}
+.legend-swatch{
+  display:inline-block;
+  width:1rem;
+  height:1rem;
+  border-radius:3px;
+}
+
+/* SECTION */
+.section-header{
+  display:flex;
+  align-items:baseline;
+  gap:1rem;
+  margin:3rem 0 1.5rem;
+  padding-bottom:0.75rem;
+  border-bottom:2px solid var(--edge);
+}
+.section-number{
+  font:800 2rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.02em;
+}
+.section-title{
+  font:800 2rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.02em;
+  margin:0;
+}
+
+/* CARDS */
+.cards-grid{
+  display:grid;
+  gap:1.5rem;
+  margin-bottom:2rem;
+}
+.cards-grid.screen{
+  grid-template-columns:repeat(3,1fr);
+}
+.cards-grid.screen .card:nth-child(4),
+.cards-grid.screen .card:nth-child(5){
+  grid-column:span 1;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-top:6px solid;
+  border-radius:12px;
+  padding:1.5rem;
+  break-inside:avoid;
+}
+.card-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1rem;
+}
+.card-id{
+  display:inline-block;
+  font:800 1.5rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  padding:0.5rem 0.75rem;
+  border-radius:8px;
+  background:var(--panel2);
+  border:2px solid;
+}
+.card-title-block{flex:1;}
+.card-title{
+  font:800 1.5rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.01em;
+  margin:0 0 0.5rem;
+}
+.card-question{
+  font:italic 1rem var(--font-body);
+  color:var(--dim);
+  margin:0;
+}
+.card-time{
+  font:800 1.25rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  color:var(--mute);
+  white-space:nowrap;
+}
+.really-asking{
+  background:var(--panel2);
+  border-left:4px solid var(--hr);
+  padding:0.75rem 1rem;
+  margin:1rem 0;
+  font:600 0.9375rem var(--font-body);
+  color:var(--ink);
+  border-radius:4px;
+}
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem;
+  margin:1rem 0;
+}
+.tag{
+  display:inline-block;
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  padding:0.375rem 0.75rem;
+  border-radius:6px;
+  background:var(--panel2);
+  border:1px solid;
+}
+.screening-for,.open-with,.pitfalls,.how-scored,.flags,.probe{
+  margin:1rem 0;
+}
+.screening-for h4,.how-scored h4,.flags h4,.probe h4{
+  font:700 0.875rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--mute);
+  margin:0 0 0.5rem;
+}
+.screening-for p,.how-scored p,.probe p{
+  font:400 0.9375rem var(--font-body);
+  color:var(--mute);
+  margin:0;
+}
+.open-with blockquote{
+  margin:1rem 0;
+  padding:1rem;
+  background:var(--panel2);
+  border-left:4px solid var(--hr);
+  border-radius:4px;
+  font:600 1rem var(--font-body);
+  color:var(--ink);
+}
+.open-with blockquote::before{content:open-quote;}
+.open-with blockquote::after{content:close-quote;}
+details{
+  margin:1rem 0;
+  background:var(--panel2);
+  border:1px solid var(--edge);
+  border-radius:8px;
+  padding:1rem;
+}
+summary{
+  font:700 0.875rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--hr);
+  cursor:pointer;
+  user-select:none;
+}
+details[open] summary{margin-bottom:1rem;}
+.draft{
+  font:400 0.9375rem var(--font-body);
+  line-height:1.6;
+  color:var(--ink);
+}
+.pitfalls ul,.flags ul{
+  list-style:none;
+  padding:0;
+  margin:0.5rem 0 0;
+}
+.pitfalls li{
+  position:relative;
+  padding-left:1.25rem;
+  margin-bottom:0.5rem;
+  font:400 0.9375rem var(--font-body);
+  color:var(--mute);
+}
+.pitfalls li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  color:var(--bad);
+}
+.flags ul{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
+.flag-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font:600 0.8125rem var(--font-body);
+  padding:0.5rem 0.75rem;
+  border-radius:6px;
+  border:1px solid;
+}
+.flag-chip.green{
+  background:rgba(107,255,122,0.1);
+  border-color:var(--good);
+  color:var(--good);
+}
+.flag-chip.red{
+  background:rgba(255,100,100,0.1);
+  border-color:var(--bad);
+  color:var(--bad);
+}
+.flag-chip::before{
+  font-weight:700;
+}
+.flag-chip.green::before{content:"▲";}
+.flag-chip.red::before{content:"▼";}
+
+/* COMPARISON */
+.comparison{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  margin:1rem 0;
+}
+.comparison-panel{
+  padding:1rem;
+  border:1px solid;
+  border-radius:8px;
+}
+.comparison-panel.strong{
+  background:rgba(107,255,122,0.05);
+  border-color:var(--good);
+}
+.comparison-panel.weak{
+  background:rgba(255,100,100,0.05);
+  border-color:var(--bad);
+}
+.comparison-title{
+  font:700 0.875rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  margin:0 0 0.75rem;
+}
+.comparison-panel.strong .comparison-title{color:var(--good);}
+.comparison-panel.weak .comparison-title{color:var(--bad);}
+.comparison-panel ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.comparison-panel li{
+  position:relative;
+  padding-left:1.25rem;
+  margin-bottom:0.5rem;
+  font:400 0.875rem var(--font-body);
+  color:var(--mute);
+}
+.comparison-panel.strong li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  color:var(--good);
+}
+.comparison-panel.weak li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  color:var(--bad);
+}
+
+/* BEHAVIORAL LAYOUT */
+.behavioral-card{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2rem;
+}
+.behavioral-left,.behavioral-right{}
+.star-stack{margin:1rem 0;}
+.star-row{
+  display:flex;
+  align-items:flex-start;
+  gap:1rem;
+  padding:0.75rem;
+  border-left:4px solid;
+  border-radius:4px;
+  margin-bottom:0.5rem;
+  background:var(--panel2);
+}
+.star-row.action{background:rgba(107,255,122,0.05);}
+.star-letter{
+  font:800 1.5rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  flex-shrink:0;
+}
+.star-label{
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--mute);
+  margin-bottom:0.25rem;
+}
+.star-text{
+  font:400 0.9375rem var(--font-body);
+  color:var(--ink);
+  margin:0;
+}
+.outline-only{
+  background:rgba(255,176,32,0.1);
+  border:2px dashed var(--gap);
+  padding:1rem;
+  border-radius:8px;
+  margin:1rem 0;
+  font:600 0.9375rem var(--font-body);
+  color:var(--gap);
+}
+
+/* STORY BANK TABLE */
+.story-table-wrap{
+  overflow-x:auto;
+  margin:2rem 0;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:12px;
+  overflow:hidden;
+}
+thead{
+  background:var(--panel2);
+}
+th{
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--mute);
+  text-align:left;
+  padding:1rem;
+  border-bottom:1px solid var(--edge);
+}
+td{
+  font:400 0.875rem var(--font-body);
+  color:var(--mute);
+  padding:1rem;
+  border-bottom:1px solid var(--edge);
+  vertical-align:top;
+}
+tr:last-child td{border-bottom:none;}
+tbody tr.backup{opacity:0.6;}
+.answer-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.375rem;
+}
+.answer-chip{
+  display:inline-block;
+  font:600 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  padding:0.25rem 0.5rem;
+  border-radius:4px;
+  background:var(--panel2);
+  border:1px solid;
+}
+.answer-chip.lead{
+  background:var(--story);
+  color:var(--bg);
+  border-color:var(--story);
+}
+.answer-chip.backup{
+  border-style:dashed;
+  color:var(--story);
+  border-color:var(--story);
+}
+
+/* QUESTIONS TO ASK */
+.ask-cards{
+  display:grid;
+  gap:1rem;
+  margin:2rem 0;
+}
+.ask-card{
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-top:6px solid var(--ask);
+  border-radius:12px;
+  padding:1.5rem;
+  break-inside:avoid;
+}
+.ask-card-header{
+  display:flex;
+  align-items:baseline;
+  gap:0.75rem;
+  margin-bottom:0.75rem;
+}
+.ask-badge{
+  display:inline-block;
+  font:800 1rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  padding:0.375rem 0.625rem;
+  border-radius:6px;
+  background:var(--panel2);
+  border:2px solid var(--ask);
+  color:var(--ask);
+}
+.ask-label{
+  font:800 1.125rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0.01em;
+  color:var(--ask);
+  margin:0;
+}
+.ask-question{
+  font:400 0.9375rem var(--font-body);
+  color:var(--ink);
+  margin:0;
+}
+
+/* QUICK REF */
+.quick-ref-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1rem;
+  margin:2rem 0;
+}
+.quick-tile{
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-top:4px solid;
+  border-radius:8px;
+  padding:1rem;
+  break-inside:avoid;
+}
+.quick-id{
+  font:800 1.25rem var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  margin:0 0 0.25rem;
+}
+.quick-title{
+  font:700 0.75rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--mute);
+  margin:0 0 0.5rem;
+}
+.quick-time{
+  font:700 0.6875rem var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--dim);
+  margin:0 0 0.5rem;
+}
+.quick-asking{
+  display:inline-block;
+  background:var(--panel2);
+  border:1px solid var(--edge);
+  padding:0.25rem 0.5rem;
+  border-radius:4px;
+  font:600 0.6875rem var(--font-body);
+  color:var(--mute);
+  margin:0.5rem 0;
+}
+.quick-bullets{
+  list-style:none;
+  padding:0;
+  margin:0.5rem 0;
+}
+.quick-bullets li{
+  position:relative;
+  padding-left:1rem;
+  margin-bottom:0.375rem;
+  font:400 0.8125rem var(--font-body);
+  color:var(--mute);
+}
+.quick-bullets li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  font-size:0.5rem;
+  color:var(--c0);
+}
+.quick-dont{
+  font:700 0.75rem var(--font-body);
+  color:var(--bad);
+  margin-top:0.5rem;
+}
+
+/* FOOTER */
+footer{
+  margin:3rem 0 2rem;
+  padding:1.5rem 0;
+  border-top:1px solid var(--edge);
+  font:400 0.875rem var(--font-body);
+  color:var(--dim);
+}
+
+/* GAP MARK */
+mark.gap{
+  display:inline-block;
+  background:rgba(255,176,32,0.1);
+  border:2px dashed var(--gap);
+  padding:0.125rem 0.5rem;
+  border-radius:4px;
+  font:700 0.8125rem var(--font-mono);
+  color:var(--gap);
+  white-space:nowrap;
+}
+mark.gap::before{
+  content:"ADD DETAIL: ";
+  font-weight:800;
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .cards-grid.screen{grid-template-columns:repeat(2,1fr);}
+  .cards-grid.screen .card:nth-child(4),.cards-grid.screen .card:nth-child(5){grid-column:span 1;}
+  .behavioral-card{grid-template-columns:1fr;}
+  .quick-ref-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  h1{font-size:2.5rem;}
+  .phase-cards{grid-template-columns:1fr;}
+  .cards-grid.screen{grid-template-columns:1fr;}
+  .comparison{grid-template-columns:1fr;}
+  .quick-ref-grid{grid-template-columns:1fr;}
+  .timeline-row{flex-wrap:wrap;}
+}
+
+/* PRINT */
+@media print{
+  :root{
+    --bg:#FFFFFF;
+    --panel:#F9FAFB;
+    --panel2:#F3F4F6;
+    --edge:#D1D5DB;
+    --ink:#111827;
+    --mute:#4B5563;
+    --dim:#6B7280;
+    --hr:#0EA5E9;
+    --hr-alt:#38BDF8;
+    --beh:#8B5CF6;
+    --beh-alt:#A78BFA;
+    --story:#10B981;
+    --ask:#EC4899;
+    --c0:#6B7280;
+    --gap:#F59E0B;
+    --bad:#EF4444;
+    --good:#10B981;
+    --star-s:#0EA5E9;
+    --star-t:#F59E0B;
+    --star-a:#10B981;
+    --star-r:#EC4899;
+  }
+  body{background:#FFFFFF;color:#111827;}
+  nav,.nav-toggle{display:none;}
+  .section-header{page-break-before:always;}
+  .card,.phase-card,.ask-card,.quick-tile{break-inside:avoid;}
+  *{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="nav-brand">Interview Game Plan</div>
+    <div class="nav-links">
+      <a href="#map">Map</a>
+      <a href="#screen">01 Screen</a>
+      <a href="#behavioral">02 Behavioral</a>
+      <a href="#stories">Stories</a>
+      <a href="#ask">03 Ask</a>
+      <a href="#quickref">Quick ref</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleDrafts()">Expand drafts</button>
+  </div>
+</nav>
+
+<header class="poster-header">
+  <div class="container">
+    <div class="kicker">INTERVIEW PREP 2026 SENIOR FULL-STACK ENGINEER</div>
+    <h1>INTERVIEW GAME PLAN<span class="dot">.</span></h1>
+    <div class="subline">Screen to Behavioral to Your questions · Senior IC</div>
+    <div class="rule-pill"><strong>Headline first.</strong> Real story before polish.</div>
+    <p class="tailoring">Tailored for Acme Corp – Senior full-stack engineer, senior IC level.</p>
+
+    <div class="timeline-bars">
+      <div>
+        <div class="timeline-row-label">Recruiter Screen (~30 min)</div>
+        <div class="timeline-row">
+          <a href="#a1" class="timeline-seg" style="flex-basis:calc(2/30*100%);background:var(--hr);">INTRO</a>
+          <a href="#a1" class="timeline-seg" style="flex-basis:calc(3/30*100%);background:var(--hr-alt);">A1</a>
+          <a href="#a2" class="timeline-seg" style="flex-basis:calc(2/30*100%);background:var(--hr);">A2</a>
+          <a href="#a3" class="timeline-seg" style="flex-basis:calc(2/30*100%);background:var(--hr-alt);">A3</a>
+          <a href="#a4" class="timeline-seg" style="flex-basis:calc(2/30*100%);background:var(--hr);">A4</a>
+          <a href="#a5" class="timeline-seg" style="flex-basis:calc(2/30*100%);background:var(--hr-alt);">A5</a>
+          <div class="timeline-seg" style="flex-basis:calc(10/30*100%);background:var(--c0);">PITCH</div>
+          <div class="timeline-seg" style="flex-basis:calc(7/30*100%);background:var(--ask);">YOUR Q</div>
+        </div>
+        <div class="timeline-ticks">
+          <div class="timeline-tick" style="flex-basis:calc(2/30*100%);">0</div>
+          <div class="timeline-tick" style="flex-basis:calc(3/30*100%);">2</div>
+          <div class="timeline-tick" style="flex-basis:calc(2/30*100%);">5</div>
+          <div class="timeline-tick" style="flex-basis:calc(2/30*100%);">7</div>
+          <div class="timeline-tick" style="flex-basis:calc(2/30*100%);">9</div>
+          <div class="timeline-tick" style="flex-basis:calc(2/30*100%);">11</div>
+          <div class="timeline-tick" style="flex-basis:calc(10/30*100%);">13</div>
+          <div class="timeline-tick" style="flex-basis:calc(7/30*100%);">23</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="timeline-row-label">Behavioral Loop (~45 min)</div>
+        <div class="timeline-row">
+          <div class="timeline-seg" style="flex-basis:calc(4/45*100%);background:var(--c0);">INTRO</div>
+          <a href="#b1" class="timeline-seg" style="flex-basis:calc(7/45*100%);background:var(--beh);">B1</a>
+          <a href="#b2" class="timeline-seg" style="flex-basis:calc(7/45*100%);background:var(--beh-alt);">B2</a>
+          <a href="#b3" class="timeline-seg" style="flex-basis:calc(7/45*100%);background:var(--beh);">B3</a>
+          <a href="#b4" class="timeline-seg" style="flex-basis:calc(7/45*100%);background:var(--beh-alt);">B4</a>
+          <a href="#b5" class="timeline-seg" style="flex-basis:calc(7/45*100%);background:var(--beh);">B5</a>
+          <div class="timeline-seg" style="flex-basis:calc(6/45*100%);background:var(--ask);">YOUR Q</div>
+        </div>
+        <div class="timeline-ticks">
+          <div class="timeline-tick" style="flex-basis:calc(4/45*100%);">0</div>
+          <div class="timeline-tick" style="flex-basis:calc(7/45*100%);">4</div>
+          <div class="timeline-tick" style="flex-basis:calc(7/45*100%);">11</div>
+          <div class="timeline-tick" style="flex-basis:calc(7/45*100%);">18</div>
+          <div class="timeline-tick" style="flex-basis:calc(7/45*100%);">25</div>
+          <div class="timeline-tick" style="flex-basis:calc(7/45*100%);">32</div>
+          <div class="timeline-tick" style="flex-basis:calc(6/45*100%);">39</div>
+        </div>
+      </div>
+      <p class="timeline-note">Time boxes are general guidance; adjust to the interviewer's pace.</p>
+    </div>
+
+    <div class="phase-cards">
+      <div class="phase-card" style="border-top-color:var(--hr);">
+        <div class="phase-card-header">
+          <span class="phase-pill" style="color:var(--hr);">01</span>
+          <h3 class="phase-title" style="color:var(--hr);">Recruiter Screen</h3>
+        </div>
+        <div class="time-box">20–30 min</div>
+        <div class="goal-callout" style="border-color:var(--hr);color:var(--hr);">
+          Pass filters: eligible, motivated, comp-aligned, can communicate.
+        </div>
+        <ul class="phase-tips">
+          <li>Open each answer with a one-line headline</li>
+          <li>Keep stories under 90 seconds</li>
+          <li>Name numbers: years, users, tech stack</li>
+          <li>End on "why this company" with real research</li>
+        </ul>
+        <div class="dont-box">✗ DON'T ramble or bad-mouth your last employer.</div>
+      </div>
+
+      <div class="phase-card" style="border-top-color:var(--beh);">
+        <div class="phase-card-header">
+          <span class="phase-pill" style="color:var(--beh);">02</span>
+          <h3 class="phase-title" style="color:var(--beh);">Behavioral Loop</h3>
+        </div>
+        <div class="time-box">45–60 min</div>
+        <div class="goal-callout" style="border-color:var(--beh);color:var(--beh);">
+          Evidence on rubric: ownership, collaboration, judgment, learning.
+        </div>
+        <ul class="phase-tips">
+          <li>Use STAR for every story</li>
+          <li>Say "I" not "we" in Action</li>
+          <li>Name the result with a metric or outcome</li>
+          <li>Show the lesson or behavior change</li>
+        </ul>
+        <div class="dont-box">✗ DON'T invent heroics, blame others, or skip the result.</div>
+      </div>
+
+      <div class="phase-card" style="border-top-color:var(--story);">
+        <div class="phase-card-header">
+          <span class="phase-pill" style="color:var(--story);">BANK</span>
+          <h3 class="phase-title" style="color:var(--story);">Story Bank</h3>
+        </div>
+        <div class="time-box">3 stories</div>
+        <div class="goal-callout" style="border-color:var(--story);color:var(--story);">
+          Reuse your best stories across multiple questions.
+        </div>
+        <ul class="phase-tips">
+          <li>Lead with your LLM gateway story</li>
+          <li>Keep confirmed facts ready</li>
+          <li>Fill ADD DETAIL gaps before the interview</li>
+          <li>Practice aloud to stay under 2 minutes</li>
+        </ul>
+        <div class="dont-box">✗ DON'T invent metrics or team sizes on the fly.</div>
+      </div>
+
+      <div class="phase-card" style="border-top-color:var(--ask);">
+        <div class="phase-card-header">
+          <span class="phase-pill" style="color:var(--ask);">03</span>
+          <h3 class="phase-title" style="color:var(--ask);">Your Questions</h3>
+        </div>
+        <div class="time-box">5–10 min</div>
+        <div class="goal-callout" style="border-color:var(--ask);color:var(--ask);">
+          Show you've researched; ask what you really need to know.
+        </div>
+        <ul class="phase-tips">
+          <li>Ask about the team's AI roadmap</li>
+          <li>Probe success metrics for the role</li>
+          <li>Ask how they balance speed and quality</li>
+          <li>End with timeline or next steps</li>
+        </ul>
+        <div class="dont-box">✗ DON'T ask questions Google can answer.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="map">
+  <div class="container">
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 1200 800" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title>Interview flow map</title>
+        <desc>Swim-lane diagram showing recruiter screen (A1-A5), behavioral loop (B1-B5), story bank, and your questions, with time estimates and competency tags.</desc>
+        
+        <!-- Grid pattern -->
+        <defs>
+          <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#22306A" stroke-width="0.5" opacity="0.3"/>
+          </pattern>
+        </defs>
+        <rect width="1200" height="800" fill="url(#grid)"/>
+
+        <!-- Lane labels -->
+        <text x="20" y="80" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#2FE0FF" text-transform="uppercase">01 RECRUITER SCREEN</text>
+        <text x="20" y="320" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#B98BFF" text-transform="uppercase">02 BEHAVIORAL LOOP</text>
+        <text x="20" y="560" font-family="var(--font-display)" font-size="16" font-weight="800" fill="#6BFF7A" text-transform="uppercase">STORY BANK</text>
+        <text x="20" y="680" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#FF4FA3" text-transform="uppercase">03 YOUR QUESTIONS</text>
+
+        <!-- A nodes -->
+        <a href="#a1">
+          <rect x="60" y="100" width="180" height="120" rx="12" fill="#111C44" stroke="#2FE0FF" stroke-width="3"/>
+          <text x="150" y="135" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#2FE0FF" text-anchor="middle">A1</text>
+          <text x="150" y="160" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Tell me about</text>
+          <text x="150" y="177" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">yourself</text>
+          <rect x="90" y="190" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="150" y="203" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">60–90s</text>
+        </a>
+
+        <a href="#a2">
+          <rect x="280" y="100" width="180" height="120" rx="12" fill="#111C44" stroke="#8CEFFF" stroke-width="3"/>
+          <text x="370" y="135" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#8CEFFF" text-anchor="middle">A2</text>
+          <text x="370" y="160" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Why are you</text>
+          <text x="370" y="177" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">looking?</text>
+          <rect x="310" y="190" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="370" y="203" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">30–60s</text>
+        </a>
+
+        <a href="#a3">
+          <rect x="500" y="100" width="180" height="120" rx="12" fill="#111C44" stroke="#2FE0FF" stroke-width="3"/>
+          <text x="590" y="135" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#2FE0FF" text-anchor="middle">A3</text>
+          <text x="590" y="160" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Why Acme?</text>
+          <rect x="530" y="175" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="590" y="188" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">45–60s</text>
+          <text x="590" y="203" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">MOTIVATION</text>
+        </a>
+
+        <a href="#a4">
+          <rect x="720" y="100" width="180" height="120" rx="12" fill="#111C44" stroke="#8CEFFF" stroke-width="3"/>
+          <text x="810" y="135" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#8CEFFF" text-anchor="middle">A4</text>
+          <text x="810" y="160" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Salary?</text>
+          <rect x="740" y="175" width="140" height="20" rx="10" fill="#0E173A"/>
+          <text x="810" y="188" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">20–40s</text>
+          <text x="810" y="203" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">COMP FIT</text>
+        </a>
+
+        <a href="#a5">
+          <rect x="940" y="100" width="180" height="120" rx="12" fill="#111C44" stroke="#2FE0FF" stroke-width="3"/>
+          <text x="1030" y="135" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#2FE0FF" text-anchor="middle">A5</text>
+          <text x="1030" y="160" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Logistics</text>
+          <rect x="970" y="175" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="1030" y="188" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">20–40s</text>
+          <text x="1030" y="203" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">ELIGIBLE</text>
+        </a>
+
+        <!-- Arrows A -->
+        <path d="M 240 160 L 280 160" stroke="#2FE0FF" stroke-width="2" fill="none" marker-end="url(#arrow-hr)"/>
+        <path d="M 460 160 L 500 160" stroke="#2FE0FF" stroke-width="2" fill="none" marker-end="url(#arrow-hr)"/>
+        <path d="M 680 160 L 720 160" stroke="#2FE0FF" stroke-width="2" fill="none" marker-end="url(#arrow-hr)"/>
+        <path d="M 900 160 L 940 160" stroke="#2FE0FF" stroke-width="2" fill="none" marker-end="url(#arrow-hr)"/>
+
+        <!-- Pass to loop -->
+        <path d="M 1030 220 L 1030 280 L 150 280 L 150 340" stroke="#8A94BC" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow-dim)"/>
+        <text x="590" y="275" font-family="var(--font-mono)" font-size="11" font-weight="700" fill="#8A94BC" text-anchor="middle">PASS SCREEN → LOOP</text>
+
+        <!-- B nodes -->
+        <a href="#b1">
+          <rect x="60" y="340" width="180" height="140" rx="12" fill="#111C44" stroke="#B98BFF" stroke-width="3"/>
+          <text x="150" y="380" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#B98BFF" text-anchor="middle">B1</text>
+          <text x="150" y="405" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Biggest failure</text>
+          <rect x="90" y="420" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="150" y="433" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">90s–2m</text>
+          <text x="150" y="450" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">LEARNING</text>
+          <text x="150" y="465" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">OWNERSHIP</text>
+        </a>
+
+        <a href="#b2">
+          <rect x="280" y="340" width="180" height="140" rx="12" fill="#111C44" stroke="#D6BDFF" stroke-width="3"/>
+          <text x="370" y="380" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#D6BDFF" text-anchor="middle">B2</text>
+          <text x="370" y="405" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Conflict with</text>
+          <text x="370" y="422" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">coworker</text>
+          <rect x="310" y="437" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="370" y="450" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">90s–2m</text>
+          <text x="370" y="465" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">COLLABORATION</text>
+        </a>
+
+        <a href="#b3">
+          <rect x="500" y="340" width="180" height="140" rx="12" fill="#111C44" stroke="#B98BFF" stroke-width="3"/>
+          <text x="590" y="380" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#B98BFF" text-anchor="middle">B3</text>
+          <text x="590" y="405" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Disagreed with</text>
+          <text x="590" y="422" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">manager</text>
+          <rect x="530" y="437" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="590" y="450" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">90s–2m</text>
+          <text x="590" y="465" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">JUDGMENT</text>
+        </a>
+
+        <a href="#b4">
+          <rect x="720" y="340" width="180" height="140" rx="12" fill="#111C44" stroke="#D6BDFF" stroke-width="3"/>
+          <text x="810" y="380" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#D6BDFF" text-anchor="middle">B4</text>
+          <text x="810" y="405" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Tough deadline</text>
+          <rect x="750" y="420" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="810" y="433" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">90s–2m</text>
+          <text x="810" y="450" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">BIAS FOR ACTION</text>
+          <text x="810" y="465" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">AMBIGUITY</text>
+        </a>
+
+        <a href="#b5">
+          <rect x="940" y="340" width="180" height="140" rx="12" fill="#111C44" stroke="#B98BFF" stroke-width="3"/>
+          <text x="1030" y="380" font-family="var(--font-display)" font-size="32" font-weight="800" fill="#B98BFF" text-anchor="middle">B5</text>
+          <text x="1030" y="405" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">Proudest</text>
+          <text x="1030" y="422" font-family="var(--font-body)" font-size="13" fill="#F4F6FF" text-anchor="middle">achievement</text>
+          <rect x="970" y="437" width="120" height="20" rx="10" fill="#0E173A"/>
+          <text x="1030" y="450" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#AEB8DC" text-anchor="middle">90s–2m</text>
+          <text x="1030" y="465" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">LEADERSHIP</text>
+        </a>
+
+        <!-- Arrows B -->
+        <path d="M 240 410 L 280 410" stroke="#B98BFF" stroke-width="2" fill="none" marker-end="url(#arrow-beh)"/>
+        <path d="M 460 410 L 500 410" stroke="#B98BFF" stroke-width="2" fill="none" marker-end="url(#arrow-beh)"/>
+        <path d="M 680 410 L 720 410" stroke="#B98BFF" stroke-width="2" fill="none" marker-end="url(#arrow-beh)"/>
+        <path d="M 900 410 L 940 410" stroke="#B98BFF" stroke-width="2" fill="none" marker-end="url(#arrow-beh)"/>
+
+        <!-- Story bank pills -->
+        <rect x="80" y="580" width="200" height="40" rx="20" fill="#0E173A" stroke="#6BFF7A" stroke-width="2"/>
+        <text x="180" y="604" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="#6BFF7A" text-anchor="middle">LLM Gateway / Highspot</text>
+        <text x="180" y="615" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">B4 B5</text>
+
+        <rect x="320" y="580" width="200" height="40" rx="20" fill="#0E173A" stroke="#6BFF7A" stroke-width="2"/>
+        <text x="420" y="604" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="#6BFF7A" text-anchor="middle">AI Features / Highspot</text>
+        <text x="420" y="615" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">B1 (seed)</text>
+
+        <rect x="560" y="580" width="200" height="40" rx="20" fill="#0E173A" stroke="#6BFF7A" stroke-width="2"/>
+        <text x="660" y="604" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="#6BFF7A" text-anchor="middle">Full-stack / 8 yrs</text>
+        <text x="660" y="615" font-family="var(--font-mono)" font-size="9" fill="#7F8AB8" text-anchor="middle">A1 B2 B3</text>
+
+        <!-- Story connectors -->
+        <path d="M 180 580 L 180 540 L 810 540 L 810 480" stroke="#6BFF7A" stroke-width="2" fill="none"/>
+        <path d="M 180 580 L 180 540 L 1030 540 L 1030 480" stroke="#6BFF7A" stroke-width="2" fill="none"/>
+        <path d="M 420 580 L 420 540 L 150 540 L 150 480" stroke="#8A94BC" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+        <path d="M 660 580 L 660 540 L 370 540 L 370 480" stroke="#8A94BC" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+        <path d="M 660 580 L 660 540 L 590 540 L 590 480" stroke="#8A94BC" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+
+        <!-- Your questions -->
+        <a href="#q1">
+          <rect x="60" y="700" width="180" height="60" rx="10" fill="#111C44" stroke="#FF4FA3" stroke-width="2"/>
+          <text x="150" y="725" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#FF4FA3" text-anchor="middle">Q1</text>
+          <text x="150" y="745" font-family="var(--font-body)" font-size="12" fill="#F4F6FF" text-anchor="middle">AI roadmap</text>
+        </a>
+
+        <a href="#q2">
+          <rect x="280" y="700" width="180" height="60" rx="10" fill="#111C44" stroke="#FF4FA3" stroke-width="2"/>
+          <text x="370" y="725" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#FF4FA3" text-anchor="middle">Q2</text>
+          <text x="370" y="745" font-family="var(--font-body)" font-size="12" fill="#F4F6FF" text-anchor="middle">Success metrics</text>
+        </a>
+
+        <a href="#q3">
+          <rect x="500" y="700" width="180" height="60" rx="10" fill="#111C44" stroke="#FF4FA3" stroke-width="2"/>
+          <text x="590" y="725" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#FF4FA3" text-anchor="middle">Q3</text>
+          <text x="590" y="745" font-family="var(--font-body)" font-size="12" fill="#F4F6FF" text-anchor="middle">Speed vs quality</text>
+        </a>
+
+        <a href="#q4">
+          <rect x="720" y="700" width="180" height="60" rx="10" fill="#111C44" stroke="#FF4FA3" stroke-width="2"/>
+          <text x="810" y="725" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#FF4FA3" text-anchor="middle">Q4</text>
+          <text x="810" y="745" font-family="var(--font-body)" font-size="12" fill="#F4F6FF" text-anchor="middle">Team structure</text>
+        </a>
+
+        <a href="#q5">
+          <rect x="940" y="700" width="180" height="60" rx="10" fill="#111C44" stroke="#FF4FA3" stroke-width="2"/>
+          <text x="1030" y="725" font-family="var(--font-display)" font-size="20" font-weight="800" fill="#FF4FA3" text-anchor="middle">Q5</text>
+          <text x="1030" y="745" font-family="var(--font-body)" font-size="12" fill="#F4F6FF" text-anchor="middle">Next steps</text>
+        </a>
+
+        <!-- Arrow markers -->
+        <defs>
+          <marker id="arrow-hr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#2FE0FF"/>
+          </marker>
+          <marker id="arrow-beh" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#B98BFF"/>
+          </marker>
+          <marker id="arrow-dim" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#8A94BC"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="poster-bottom">
+      <div class="poster-box">
+        <h3 class="poster-box-title">Story Toolbox</h3>
+        <div class="story-chips">
+          <span class="story-chip">LLM Gateway</span>
+          <span class="story-chip">AI Features</span>
+          <span class="story-chip">8 yrs React/TS/Node</span>
+        </div>
+      </div>
+
+      <div class="poster-box">
+        <h3 class="poster-box-title">Your Numbers</h3>
+        <div class="numbers-list">
+          <span>Years:</span><span>8 (full-stack)</span>
+          <span>Tenure:</span><span>Highspot 2023–2026 (3 yrs)</span>
+          <span>Stack:</span><span>React, TypeScript, Node.js</span>
+          <span>Domain:</span><span>LLM gateway, AI features</span>
+        </div>
+      </div>
+
+      <div class="poster-box">
+        <h3 class="poster-box-title">Say It Out Loud</h3>
+        <div class="phrases">
+          <span class="phrase">"I designed and built an internal LLM gateway at Highspot."</span>
+          <span class="phrase">"I've spent 8 years building full-stack products with React, TypeScript, and Node."</span>
+          <span class="phrase">"I'm excited about Acme's AI roadmap."</span>
+          <span class="phrase">"I learned to…"</span>
+          <span class="phrase">"The result was…"</span>
+          <span class="phrase">"My action was to…"</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend-pills">
+      <div class="legend-pill">
+        <span class="legend-swatch" style="background:#6BFF7A;"></span>
+        Facts only – no invented metrics
+      </div>
+      <div class="legend-pill">
+        <mark class="gap" style="font-size:0.75rem;padding:0.125rem 0.375rem;">example gap</mark>
+        <span style="margin-left:0.5rem;">3 gaps to fill</span>
+      </div>
+      <div class="legend-pill">
+        <span class="legend-swatch" style="background:#2FE0FF;"></span>S
+        <span class="legend-swatch" style="background:#FFB020;margin-left:0.25rem;"></span>T
+        <span class="legend-swatch" style="background:#6BFF7A;margin-left:0.25rem;"></span>A
+        <span class="legend-swatch" style="background:#FF4FA3;margin-left:0.25rem;"></span>R
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--hr);">01</span>
+      <h2 class="section-title" style="color:var(--hr);">RECRUITER SCREEN</h2>
+    </div>
+
+    <div class="cards-grid screen">
+      <article class="card" id="a1" style="border-top-color:var(--hr);">
+        <div class="card-header">
+          <div>
+            <div class="card-id" style="border-color:var(--hr);color:var(--hr);">A1</div>
+          </div>
+          <div class="card-title-block">
+            <h3 class="card-title" style="color:var(--hr);">TELL ME ABOUT YOURSELF</h3>
+            <p class="card-question">Walk me through your background</p>
+          </div>
+          <div class="card-time">60–90s</div>
+        </div>
+
+        <div class="really-asking">
+          <strong>Really asking:</strong> Can you communicate clearly? Are you at the right level? Does your experience match the role?
+        </div>
+
+        <div class="tags">
+          <span class="tag" style="border-color:var(--hr);color:var(--hr);">COMMUNICATION</span>
+          <span class="tag" style="border-color:var(--hr);color:var(--hr);">LEVEL CHECK</span>
+        </div>
+
+        <div class="screening-for">
+          <h4>What they are really screening for:</h4>
+          <p>Eligibility and level match. They want to confirm you can do the job (8 years, senior IC), that you can explain technical work to a non-technical listener, and that you are not over- or under-qualified.</p>
+        </div>
+
+        <div class="open-with">
+          <blockquote>I'm a senior full-stack engineer with 8 years building production systems in React, TypeScript, and Node. Most recently I designed and shipped an internal LLM gateway and AI features at Highspot.</blockquote>
+        </div>
+
+        <details>
+          <summary>SPOKEN DRAFT (click to expand)</summary>
+          <div class="draft">
+            <p>I'm a senior full-stack engineer with 8 years building production systems in React, TypeScript, and Node.</p>
+            <p>I joined Highspot in 2023 and spent the last three years working on AI infrastructure and features. I designed and built an internal LLM gateway—so <mark class="gap">the architecture, tech choices, and rollout approach</mark>—and then led the front-end work for AI-powered features that went into the product.</p>
+            <p>Before that, I <mark class="gap">earlier experience: companies, roles, and key outcomes</mark>. I've always been drawn to the intersection of infrastructure and user-facing features—building systems that are robust under the hood but feel seamless to users.</p>
+            <p>I'm looking now because I want to work on AI products at scale, and Acme's focus on <mark class="gap">specific Acme product or mission from research</mark> is exactly the kind of problem I want to dig into next.</p>
+          </div>
+        </details>
+
+        <div class="pitfalls">
+          <h4>Pitfalls:</h4>
+          <ul>
+            <li>Going chronologically from college—start with your current role</li>
+            <li>Listing every technology you've ever touched</li>
+            <li>Rambling past 90 seconds</li>
+            <li>Ending without connecting to "why this company"</li>
+          </ul>
+        </div>
+
+        <div class="dont-box">
+          ✗ DON'T recite your resume line-by-line or talk for three minutes.
+        </div>
+      </article>
+
+      <article class="card" id="a2" style="border-top-color:var(--hr-alt);">
+        <div class="card-header">
+          <div>
+            <div class="card-id" style="border-color:var(--hr-alt);color:var(--hr-alt);">A2</div>
+          </div>
+          <div class="card-title-block">
+            <h3 class="card-title" style="color:var(--hr-alt);">WHY ARE YOU LOOKING?</h3>
+            <p class="card-question">Why are you leaving, or why now?</p>
+          </div>
+          <div class="card-time">30–60s</div>
+        </div>
+
+        <div class="really-asking">
+          <strong>Really asking:</strong> Are you a flight risk? Were you fired? Are you leaving for the right reasons?
+        </div>
+
+        <div class="tags">
+          <span class="tag" style="border-color:var(--hr-alt);color:var(--hr-alt);">MOTIVATION</span>
+          <span class="tag" style="border-color:var(--hr-alt);color:var(--hr-alt);">FLIGHT RISK</span>
+        </div>
+
+        <div class="screening-for">
+          <h4>What they are really screening for:</h4>
+          <p>Positive motivation and low risk. They want to hear you are leaving toward something (growth, new challenges, mission alignment), not running away from conflict or failure. If you were laid off or let go, they want to hear you own it calmly.</p>
+        </div>
+
+        <div class="open-with">
+          <blockquote>I'm looking because I've built the foundation for AI features at Highspot, and I'm ready for the next chapter—shipping AI products at scale with a team that's fully committed to that mission.</blockquote>
+        </div>
+
+        <details>
+          <summary>SPOKEN DRAFT (click to expand)</summary>
+          <div class="draft">
+            <p>I'm looking because I've built the foundation for AI features at Highspot, and I'm ready for the next chapter—shipping AI products at scale with a team that's fully committed to that mission.</p>
+            <p>Over the last three years I designed and launched our LLM gateway and contributed to the AI features that are now in production. It's been a great run—<mark class="gap">a specific win or learning</mark>—but Highspot is <mark class="gap">company direction, pivot, or scope change that makes this a natural exit</mark>.</p>
+            <p>I want to join a team where AI is the core product, not a feature. Acme's work on <mark class="gap">specific Acme product or technical challenge</mark> is exactly the kind of problem I want to own end-to-end.</p>
+          </div>
+        </details>
+
+        <div class="pitfalls">
+          <h4>Pitfalls:</h4>
+          <ul>
+            <li>Bad-mouthing your manager or company</li>
+            <li>Saying "I'm bored" without naming what you want next</li>
+            <li>Blaming others for why you are leaving</li>
+            <li>Being vague—"looking for growth" with no specifics</li>
+          </ul>
+        </div>
+
+        <div class="dont-box">
+          ✗ DON'T trash your employer or sound like you're running away from something.
+        </div>
+      </article>
+
+      <article class="card" id="a3" style="border-top-color:var(--hr);">
+        <div class="card-header">
+          <div>
+            <div class="card-id" style="border-color:var(--hr);color:var(--hr);">A3</div>
+          </div>
+          <div class="card-title-block">
+            <h3 class="card-title" style="color:var(--hr);">WHY ACME?</h3>
+            <p class="card-question">Why this company / why this role?</p>
+          </div>
+          <div class="card-time">45–60s</div>
+        </div>
+
+        <div class="really-asking">
+          <strong>Really asking:</strong> Did you do any research? Are you genuinely interested, or is this just another application?
+        </div>
+
+        <div class="tags">
+          <span class="tag" style="border-color:var(--hr);color:var(--hr);">MOTIVATION</span>
+          <span class="tag" style="border-color:var(--hr);color:var(--hr);">RESEARCH</span>
+        </div>
+
+        <div class="screening-for">
+          <h4>What they are really screening for:</h4>
+          <p>Genuine interest and preparation. They want to hear you've researched the company, understand the product or mission, and can connect your experience to their needs. Generic answers ("I've heard great things") are a red flag.</p>
+        </div>
+
+        <div class="open-with">
+          <blockquote>I'm excited about Acme because you're building AI-first products, not bolting AI onto an existing platform—and that aligns perfectly with the work I want to do next.</blockquote>
+        </div>
+
+        <details>
+          <summary>SPOKEN DRAFT (click to expand)</summary>
+          <div class="draft">
+            <p>I'm excited about Acme because you're building AI-first products, not bolting AI onto an existing platform—and that aligns perfectly with the work I want to do next.</p>
+            <p>I've spent the last three years at Highspot building the infrastructure for AI features—designing the LLM gateway, integrating models, and shipping front-end experiences. That taught me <mark class="gap">a specific lesson or technical insight</mark>, and I want to apply that in an environment where AI is the core mission.</p>
+            <p>What stood out to me about Acme is <mark class="gap">specific product, technical challenge, team structure, or company value from research—e.g., "your approach to real-time LLM orchestration," "the blog post on prompt caching," "the team's work on latency optimization"</mark>. That's the kind of problem I geek out on, and I'd love to contribute at this stage of growth.</p>
+            <p>Plus, the senior IC role here feels like the right fit—<mark class="gap">something from the job description that matches your experience, e.g., "owning features end-to-end," "working across the stack," "collaborating with PM and design"</mark>.</p>
+          </div>
+        </details>
+
+        <div class="pitfalls">
+          <h4>Pitfalls:</h4>
+          <ul>
+            <li>Saying "I've heard great things" with no specifics</li>
+            <li>Focusing only on what you want ("I want to learn") instead of what you bring</li>
+            <li>Naming competitors or other companies you're interviewing with</li>
+            <li>Faking enthusiasm for a mission you don't understand</li>
+          </ul>
+        </div>
+
+        <div class="dont-box">
+          ✗ DON'T give a generic answer that could apply to any company in the space.
+        </div>
+      </article>
+
+      <article class="card" id="a4" style="border-top-color:var(--hr-alt);grid-column:span 1;">
+        <div class="card-header">
+          <div>
+            <div class="card-id" style="border-color:var(--hr-alt);color:var(--hr-alt);">A4</div>
+          </div>
+          <div class="card-title-block">
+            <h3 class="card-title" style="color:var(--hr-alt);">SALARY EXPECTATIONS</h3>
+            <p class="card-question">What are your salary expectations?</p>
+          </div>
+          <div class="card-time">20–40s</div>
+        </div>
+
+        <div class="really-asking">
+          <strong>Really asking:</strong> Are you in our budget? Will we waste time if we move you forward?
+        </div>
+
+        <div class="tags">
+          <span class="tag" style="border-color:var(--hr-alt);color:var(--hr-alt);">COMP FIT</span>
+          <span class="tag" style="border-color:var(--hr-alt);color:var(--hr-alt);">BUDGET</span>
+        </div>
+
+        <div class="screening-for">
+          <h4>What they are really screening for:</h4>
+          <p>Budget alignment. They want a number or range so they can decide whether to continue. Saying "I'm flexible" or "What's the range?" without giving your anchor first often results in a lowball or disqualification.</p>
+        </div>
+
+        <div class="open-with">
+          <blockquote>Based on my 8 years of experience and the senior IC scope, I'm targeting <mark class="gap">your number or range, and currency—e.g., "$160k–$180k USD base," or "around $170k base"</mark>. I'm open to discussing total comp once I understand the equity and benefits structure.</blockquote>
+        </div>
+
+        <details>
+          <summary>SPOKEN DRAFT (click to expand)</summary>
+          <div class="draft">
+            <p>Based on my 8 years of experience and the senior IC scope, I'm targeting <mark class="gap">your number or range, and currency</mark>.</p>
+            <p>That's anchored on <mark class="gap">a brief rationale—e.g., "market data for senior full-stack engineers in Vancouver," "my current comp plus a step up for the new scope," "conversations with other companies at this stage"</mark>.</p>
+            <p>I'm open to discussing total comp once I understand the equity and benefits structure. If Acme's range is different, I'd love to hear it—I'm more interested in the right role and team than hitting a specific number.</p>
+          </div>
+        </details>
+
+        <div class="pitfalls">
+          <h4>Pitfalls:</h4>
+          <ul>
+            <li>Saying "I'm flexible" or "Whatever you think is fair"</li>
+            <li>Refusing to give a number and demanding theirs first</li>
+            <li>Naming a range so wide it's meaningless ($120k–$200k)</li>
+            <li>Lowballing yourself out of fear</li>
+          </ul>
+        </div>
+
+        <div class="dont-box">
+          ✗ DON'T dodge the question or say "I'll take anything."
+        </div>
+      </article>
+
+      <article class="card" id="a5" style="border-top-color:var(--hr);grid-column:span 1;">
+        <div class="card-header">
+          <div>
+            <div class="card-id" style="border-color:var(--hr);color:var(--hr);">A5</div>
+          </div>
+          <div class="card-title-block">
+            <h3 class="card-title" style="color:var(--hr);">LOGISTICS</h3>
+            <p class="card-question">Start date, location, work authorization, hybrid/remote</p>
+          </div>
+          <div class="card-time">20–40s</div>
+        </div>
+
+        <div class="really-asking">
+          <strong>Really asking:</strong> Are you legally eligible? Can you start soon? Will location or work model be a blocker?
+        </div>
+
+        <div class="tags">
+          <span class="tag" style="border-color:var(--hr);color:var(--hr);">ELIGIBLE</span>
+          <span class="tag" style="border-color:var(--hr);color:var(--hr);">LOGISTICS</span>
+        </div>
+
+        <div class="screening-for">
+          <h4>What they are really screening for:</h4>
+          <p>No logistical blockers. They want to confirm you are authorized to work in Canada (or the posted location), can start within a reasonable window (2–4 weeks is typical), and are comfortable with the work model (remote, hybrid, onsite). Any red flags here kill the process.</p>
+        </div>
+
+        <div class="open-with">
+          <blockquote>I'm based in Vancouver, authorized to work in Canada, and available to start in <mark class="gap">your notice period or availability—e.g., "two weeks," "early April," "immediately"</mark>. I'm comfortable with remote or hybrid, depending on what the team needs.</blockquote>
+        </div>
+
+        <details>
+          <summary>SPOKEN DRAFT (click to expand)</summary>
+          <div class="draft">
+            <p>I'm based in Vancouver, authorized to work in Canada, and available to start in <mark class="gap">your notice period or availability</mark>.</p>
+            <p>I'm comfortable with remote or hybrid work—I've been <mark class="gap">your current work model—e.g., "fully remote for the last three years," "hybrid with two days onsite," "onsite five days"</mark>, so I can adapt to whatever Acme's team structure requires.</p>
+            <p>No visa sponsorship needed, no relocation required, and I can commit to <mark class="gap">any travel expectations from the job description, if applicable</mark>.</p>
+          </div>
+        </details>
+
+        <div class="pitfalls">
+          <h4>Pitfalls:</h4>
+          <ul>
+            <li>Being vague about work authorization ("I think so")</li>
+            <li>Saying you can start immediately when you need to give notice</li>
+            <li>Negotiating work model before you have an offer</li>
+            <li>Oversharing personal constraints ("I need Fridays off for…")</li>
+          </ul>
+        </div>
+
+        <div class="dont-box">
+          ✗ DON'T introduce new location or visa complications at this stage.
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="behavioral">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--beh);">02</span>
+      <h2 class="section-title" style="color:var(--beh);">BEHAVIORAL LOOP</h2>
+    </div>
+
+    <article class="card" id="b1" style="border-top-color:var(--beh);">
+      <div class="card-header">
+        <div>
+          <div class="card-id" style="border-color:var(--beh);color:var(--beh);">B1</div>
+        </div>
+        <div class="card-title-block">
+          <h3 class="card-title" style="color:var(--beh);">BIGGEST FAILURE</h3>
+          <p class="card-question">Tell me about your biggest failure, or a time the plan broke</p>
+        </div>
+        <div class="card-time">90s–2m</div>
+      </div>
+
+      <div class="really-asking">
+        <strong>Really asking:</strong> Do you own mistakes? Do you learn? Can you recover from failure?
+      </div>
+
+      <div class="tags">
+        <span class="tag" style="border-color:var(--beh);color:var(--beh);">LEARNING AGILITY</span>
+        <span class="tag" style="border-color:var(--beh);color:var(--beh);">OWNERSHIP</span>
+        <span class="tag" style="border-color:var(--story);color:var(--story);">STORY: AI Features / Highspot (seed)</span>
+      </div>
+
+      <div class="behavioral-card">
+        <div class="behavioral-left">
+          <div class="how-scored">
+            <h4>Competency this is coded against:</h4>
+            <p><strong>Learning agility and ownership.</strong> Interviewers score whether you take responsibility for the failure (not blaming others), whether you learned a concrete lesson, and whether you changed your behavior afterward. A rubric checks: Was the failure real? Did you own it? What did you learn? Did you apply the lesson?</p>
+          </div>
+
+          <div class="comparison">
+            <div class="comparison-panel strong">
+              <div class="comparison-title">STRONG (4/4)</div>
+              <ul>
+                <li>Named a real failure with consequences</li>
+                <li>Owned your part without blaming</li>
+                <li>Extracted a specific lesson</li>
+                <li>Showed behavior change in a later project</li>
+              </ul>
+            </div>
+            <div class="comparison-panel weak">
+              <div class="comparison-title">WEAK (1/4)</div>
+              <ul>
+                <li>No actual failure ("we succeeded anyway")</li>
+                <li>Blamed others or external factors</li>
+                <li>Vague lesson ("work harder," "communicate more")</li>
+                <li>No evidence you changed</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flags">
+            <h4>Green flags / Red flags:</h4>
+            <ul>
+              <li class="flag-chip green">Owned the mistake clearly</li>
+              <li class="flag-chip green">Named a specific lesson with an example of applying it</li>
+              <li class="flag-chip green">Showed humility and self-awareness</li>
+              <li class="flag-chip red">Blamed the PM, manager, or "the business"</li>
+              <li class="flag-chip red">Story ends in success (not a failure)</li>
+              <li class="flag-chip red">No behavior change</li>
+            </ul>
+          </div>
+
+          <div class="probe">
+            <h4>Likely follow-up probe:</h4>
+            <p>"What would you do differently if you faced that situation again?" — Use the lesson from your STAR and name a concrete action. <mark class="gap">your answer, based on the confirmed failure story</mark></p>
+          </div>
+        </div>
+
+        <div class="behavioral-right">
+          <div class="outline-only">
+            <strong>⚠ OUTLINE ONLY – NO CONFIRMED FAILURE STORY IN INPUT</strong><br>
+            <mark class="gap">Add a specific failure from Highspot (e.g., a feature launch that missed the mark, an architectural decision you had to roll back, a deadline you missed) with the situation, your actions, the bad result, and the lesson.</mark>
+            <p style="margin-top:0.75rem;color:var(--mute);">Potential seed from input: "AI features" work at Highspot could yield a story about a feature that didn't land as expected, a technical choice that created debt, or a collaboration breakdown. Add the facts, then return here to draft the STAR.</p>
+          </div>
+
+          <div class="star-stack">
+            <div class="star-row" style="border-color:var(--star-s);">
+              <div class="star-letter" style="color:var(--star-s);">S</div>
+              <div>
+                <div class="star-label">SITUATION</div>
+                <div class="star-text"><mark class="gap">Set the scene: What project or feature? What was the goal? What was your role?</mark></div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-t);">
+              <div class="star-letter" style="color:var(--star-t);">T</div>
+              <div>
+                <div class="star-label">TASK</div>
+                <div class="star-text"><mark class="gap">What was your responsibility? What decision or action did you own?</mark></div>
+              </div>
+            </div>
+            <div class="star-row action" style="border-color:var(--star-a);">
+              <div class="star-letter" style="color:var(--star-a);">A</div>
+              <div>
+                <div class="star-label">ACTION</div>
+                <div class="star-text"><mark class="gap">What did you do? (Use "I," not "we.") What went wrong because of your action or inaction?</mark></div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-r);">
+              <div class="star-letter" style="color:var(--star-r);">R</div>
+              <div>
+                <div class="star-label">RESULT</div>
+                <div class="star-text"><mark class="gap">What was the bad outcome? What did you learn? How did you change your behavior afterward?</mark></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dont-box">
+        ✗ DON'T pick a story that ends in success, blame your team, or say "I learned to communicate better" without a concrete example.
+      </div>
+    </article>
+
+    <article class="card" id="b2" style="border-top-color:var(--beh-alt);">
+      <div class="card-header">
+        <div>
+          <div class="card-id" style="border-color:var(--beh-alt);color:var(--beh-alt);">B2</div>
+        </div>
+        <div class="card-title-block">
+          <h3 class="card-title" style="color:var(--beh-alt);">CONFLICT WITH COWORKER</h3>
+          <p class="card-question">Tell me about a conflict with a coworker</p>
+        </div>
+        <div class="card-time">90s–2m</div>
+      </div>
+
+      <div class="really-asking">
+        <strong>Really asking:</strong> Can you handle interpersonal friction? Do you escalate appropriately? Do you hold grudges?
+      </div>
+
+      <div class="tags">
+        <span class="tag" style="border-color:var(--beh-alt);color:var(--beh-alt);">COLLABORATION</span>
+        <span class="tag" style="border-color:var(--beh-alt);color:var(--beh-alt);">CONFLICT RESOLUTION</span>
+        <span class="tag" style="border-color:var(--story);color:var(--story);">STORY: 8 yrs full-stack (seed)</span>
+      </div>
+
+      <div class="behavioral-card">
+        <div class="behavioral-left">
+          <div class="how-scored">
+            <h4>Competency this is coded against:</h4>
+            <p><strong>Collaboration and conflict resolution.</strong> Interviewers look for evidence that you engaged directly with the person, listened to their perspective, found common ground, and resolved the issue without drama or escalation to a manager unless necessary. A rubric checks: Was there real disagreement? Did you stay professional? Did you resolve it or escalate appropriately?</p>
+          </div>
+
+          <div class="comparison">
+            <div class="comparison-panel strong">
+              <div class="comparison-title">STRONG (4/4)</div>
+              <ul>
+                <li>Named a real disagreement with stakes</li>
+                <li>Listened to the other person's perspective</li>
+                <li>Found compromise or escalated with both sides aligned</li>
+                <li>Maintained the working relationship</li>
+              </ul>
+            </div>
+            <div class="comparison-panel weak">
+              <div class="comparison-title">WEAK (1/4)</div>
+              <ul>
+                <li>No real conflict ("we disagreed but worked it out instantly")</li>
+                <li>Bad-mouthed the coworker or made it personal</li>
+                <li>You were right, they were wrong, end of story</li>
+                <li>Passive-aggressive or avoided the conversation</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flags">
+            <h4>Green flags / Red flags:</h4>
+            <ul>
+              <li class="flag-chip green">Engaged directly, not through a manager</li>
+              <li class="flag-chip green">Acknowledged the other person's valid concerns</li>
+              <li class="flag-chip green">Reached a resolution both could live with</li>
+              <li class="flag-chip red">"There was no conflict" or "I avoid conflict"</li>
+              <li class="flag-chip red">Blamed the other person entirely</li>
+              <li class="flag-chip red">Passive-aggressive or held a grudge</li>
+            </ul>
+          </div>
+
+          <div class="probe">
+            <h4>Likely follow-up probe:</h4>
+            <p>"What did you learn about that person's perspective?" — Show empathy. Name the valid constraint or concern they had. <mark class="gap">your answer, based on a confirmed conflict story</mark></p>
+          </div>
+        </div>
+
+        <div class="behavioral-right">
+          <div class="outline-only">
+            <strong>⚠ OUTLINE ONLY – NO CONFIRMED CONFLICT STORY IN INPUT</strong><br>
+            <mark class="gap">Add a specific conflict from your 8 years (e.g., disagreement with a backend engineer over API design, friction with a designer over UX priorities, tension with a peer over code review standards) with the situation, the disagreement, your actions to resolve it, and the outcome.</mark>
+            <p style="margin-top:0.75rem;color:var(--mute);">Potential seed from input: Your full-stack experience likely involved cross-functional collaboration where technical or priority conflicts arose. Add the facts, then draft the STAR.</p>
+          </div>
+
+          <div class="star-stack">
+            <div class="star-row" style="border-color:var(--star-s);">
+              <div class="star-letter" style="color:var(--star-s);">S</div>
+              <div>
+                <div class="star-label">SITUATION</div>
+                <div class="star-text"><mark class="gap">What was the project or context? Who was the coworker? What was the disagreement about?</mark></div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-t);">
+              <div class="star-letter" style="color:var(--star-t);">T</div>
+              <div>
+                <div class="star-label">TASK</div>
+                <div class="star-text"><mark class="gap">What was at stake? Why did it matter to resolve this?</mark></div>
+              </div>
+            </div>
+            <div class="star-row action" style="border-color:var(--star-a);">
+              <div class="star-letter" style="color:var(--star-a);">A</div>
+              <div>
+                <div class="star-label">ACTION</div>
+                <div class="star-text"><mark class="gap">What did you do? Did you schedule a 1:1? Listen to their side? Propose a compromise? Escalate with alignment?</mark></div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-r);">
+              <div class="star-letter" style="color:var(--star-r);">R</div>
+              <div>
+                <div class="star-label">RESULT</div>
+                <div class="star-text"><mark class="gap">How was it resolved? Did the working relationship improve or stay professional?</mark></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dont-box">
+        ✗ DON'T say you've never had a conflict, bad-mouth the person, or make it sound like you "won."
+      </div>
+    </article>
+
+    <article class="card" id="b3" style="border-top-color:var(--beh);">
+      <div class="card-header">
+        <div>
+          <div class="card-id" style="border-color:var(--beh);color:var(--beh);">B3</div>
+        </div>
+        <div class="card-title-block">
+          <h3 class="card-title" style="color:var(--beh);">DISAGREED WITH MANAGER</h3>
+          <p class="card-question">Tell me about a time you disagreed with a manager, or pushed back</p>
+        </div>
+        <div class="card-time">90s–2m</div>
+      </div>
+
+      <div class="really-asking">
+        <strong>Really asking:</strong> Do you have a backbone? Can you disagree respectfully? Do you commit once a decision is made?
+      </div>
+
+      <div class="tags">
+        <span class="tag" style="border-color:var(--beh);color:var(--beh);">JUDGMENT</span>
+        <span class="tag" style="border-color:var(--beh);color:var(--beh);">DISAGREE & COMMIT</span>
+        <span class="tag" style="border-color:var(--story);color:var(--story);">STORY: 8 yrs full-stack (seed)</span>
+      </div>
+
+      <div class="behavioral-card">
+        <div class="behavioral-left">
+          <div class="how-scored">
+            <h4>Competency this is coded against:</h4>
+            <p><strong>Judgment and disagree-and-commit.</strong> Interviewers score whether you pushed back with data or reasoning (not emotion), whether you listened to the manager's constraints, and whether you committed to the decision once it was made—even if it wasn't your preference. A rubric checks: Did you disagree constructively? Did you have a good reason? Did you commit afterward?</p>
+          </div>
+
+          <div class="comparison">
+            <div class="comparison-panel strong">
+              <div class="comparison-title">STRONG (4/4)</div>
+              <ul>
+                <li>Disagreed with data, not emotion</li>
+                <li>Listened to the manager's reasoning</li>
+                <li>Either changed their mind or committed to their decision</li>
+                <li>Maintained trust and respect</li>
+              </ul>
+            </div>
+            <div class="comparison-panel weak">
+              <div class="comparison-title">WEAK (1/4)</div>
+              <ul>
+                <li>No real disagreement or stakes</li>
+                <li>Complained but never spoke up</li>
+                <li>Made it personal or emotional</li>
+                <li>Undermined the decision after it was made</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flags">
+            <h4>Green flags / Red flags:</h4>
+            <ul>
+              <li class="flag-chip green">Pushed back with data or a clear tradeoff</li>
+              <li class="flag-chip green">Asked for the manager's reasoning</li>
+              <li class="flag-chip green">Committed publicly once the call was made</li>
+              <li class="flag-chip red">"I never disagree with my manager"</li>
+              <li class="flag-chip red">Passive-aggressive compliance</li>
+              <li class="flag-chip red">Undermined the decision in front of the team</li>
+            </ul>
+          </div>
+
+          <div class="probe">
+            <h4>Likely follow-up probe:</h4>
+            <p>"What was your manager's reasoning, and did you understand it?" — Show you listened. Name the constraint or priority they were balancing. <mark class="gap">your answer, based on a confirmed disagreement story</mark></p>
+          </div>
+        </div>
+
+        <div class="behavioral-right">
+          <div class="outline-only">
+            <strong>⚠ OUTLINE ONLY – NO CONFIRMED DISAGREEMENT STORY IN INPUT</strong><br>
+            <mark class="gap">Add a specific disagreement from your 8 years (e.g., pushed back on a technical decision, advocated for more time on a deadline, disagreed with a priority call) with the situation, your reasoning, the manager's response, and how you handled the outcome.</mark>
+            <p style="margin-top:0.75rem;color:var(--mute);">Potential seed from input: Your full-stack experience likely involved tradeoffs between speed and quality, or technical vs. business priorities. Add the facts, then draft the STAR.</p>
+          </div>
+
+          <div class="star-stack">
+            <div class="star-row" style="border-color:var(--star-s);">
+              <div class="star-letter" style="color:var(--star-s);">S</div>
+              <div>
+                <div class="star-label">SITUATION</div>
+                <div class="star-text"><mark class="gap">What was the project or decision? What did your manager propose?</mark></div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-t);">
+              <div class="star-letter" style="color:var(--star-t);">T</div>
+              <div>
+                <div class="star-label">TASK</div>
+                <div class="star-text"><mark class="gap">Why did you disagree? What was the risk or tradeoff you saw?</mark></div>
+              </div>
+            </div>
+            <div class="star-row action" style="border-color:var(--star-a);">
+              <div class="star-letter" style="color:var(--star-a);">A</div>
+              <div>
+                <div class="star-label">ACTION</div>
+                <div class="star-text"><mark class="gap">How did you raise the concern? What data or reasoning did you use? Did you listen to their response?</mark></div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-r);">
+              <div class="star-letter" style="color:var(--star-r);">R</div>
+              <div>
+                <div class="star-label">RESULT</div>
+                <div class="star-text"><mark class="gap">What was decided? Did you commit? How did it turn out?</mark></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dont-box">
+        ✗ DON'T say you never disagree, make it personal, or undermine the decision after it was made.
+      </div>
+    </article>
+
+    <article class="card" id="b4" style="border-top-color:var(--beh-alt);">
+      <div class="card-header">
+        <div>
+          <div class="card-id" style="border-color:var(--beh-alt);color:var(--beh-alt);">B4</div>
+        </div>
+        <div class="card-title-block">
+          <h3 class="card-title" style="color:var(--beh-alt);">TOUGH DEADLINE</h3>
+          <p class="card-question">Tell me about a tough deadline, or a time you had to deliver through ambiguity</p>
+        </div>
+        <div class="card-time">90s–2m</div>
+      </div>
+
+      <div class="really-asking">
+        <strong>Really asking:</strong> Can you ship under pressure? Do you cut scope intelligently? Do you communicate proactively?
+      </div>
+
+      <div class="tags">
+        <span class="tag" style="border-color:var(--beh-alt);color:var(--beh-alt);">BIAS FOR ACTION</span>
+        <span class="tag" style="border-color:var(--beh-alt);color:var(--beh-alt);">AMBIGUITY</span>
+        <span class="tag" style="border-color:var(--story);color:var(--story);">STORY: LLM Gateway / Highspot (lead)</span>
+      </div>
+
+      <div class="behavioral-card">
+        <div class="behavioral-left">
+          <div class="how-scored">
+            <h4>Competency this is coded against:</h4>
+            <p><strong>Bias for action and operating in ambiguity.</strong> Interviewers score whether you took ownership of the problem, made decisions with incomplete information, communicated tradeoffs clearly, and delivered something valuable—even if it wasn't perfect. A rubric checks: Did you act, or wait? Did you communicate the risk? Did you ship?</p>
+          </div>
+
+          <div class="comparison">
+            <div class="comparison-panel strong">
+              <div class="comparison-title">STRONG (4/4)</div>
+              <ul>
+                <li>Named a tight deadline or ambiguous starting point</li>
+                <li>Made a call on scope or approach without all the answers</li>
+                <li>Communicated risk and tradeoffs to stakeholders</li>
+                <li>Delivered on time (or early) with a working solution</li>
+              </ul>
+            </div>
+            <div class="comparison-panel weak">
+              <div class="comparison-title">WEAK (1/4)</div>
+              <ul>
+                <li>No real urgency or ambiguity</li>
+                <li>Waited for permission or perfect information</li>
+                <li>Missed the deadline or delivered broken work</li>
+                <li>No evidence of proactive communication</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flags">
+            <h4>Green flags / Red flags:</h4>
+            <ul>
+              <li class="flag-chip green">Cut scope intelligently to hit the deadline</li>
+              <li class="flag-chip green">Flagged risks early and often</li>
+              <li class="flag-chip green">Delivered something that worked, even if not perfect</li>
+              <li class="flag-chip red">Blamed the deadline or lack of clarity</li>
+              <li class="flag-chip red">Waited for someone else to make the call</li>
+              <li class="flag-chip red">Delivered late or incomplete work without warning</li>
+            </ul>
+          </div>
+
+          <div class="probe">
+            <h4>Likely follow-up probe:</h4>
+            <p>"What would you have done differently with more time?" — Name the tradeoff you made (e.g., skipped tests, used a simpler architecture, deferred a feature) and how you would have improved it. Use confirmed facts from the LLM gateway project.</p>
+          </div>
+        </div>
+
+        <div class="behavioral-right">
+          <div class="star-stack">
+            <div class="star-row" style="border-color:var(--star-s);">
+              <div class="star-letter" style="color:var(--star-s);">S</div>
+              <div>
+                <div class="star-label">SITUATION</div>
+                <div class="star-text">At Highspot, we needed an internal LLM gateway to <mark class="gap">the business goal or technical constraint—e.g., "centralize model access for multiple teams," "reduce latency for AI features," "standardize prompt management"</mark>. <mark class="gap">The timeline or urgency—e.g., "We had six weeks to ship a working MVP before the AI feature launch," "Leadership wanted it in production by Q4"</mark>. The requirements were <mark class="gap">the ambiguity—e.g., "still evolving," "unclear which models we'd use," "no existing reference architecture"</mark>.</div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-t);">
+              <div class="star-letter" style="color:var(--star-t);">T</div>
+              <div>
+                <div class="star-label">TASK</div>
+                <div class="star-text">I owned the design and build—<mark class="gap">your scope—e.g., "choosing the architecture, defining the API contracts, and shipping the first version"</mark>. The challenge was <mark class="gap">the specific constraint—e.g., "making architectural decisions without full clarity on future use cases," "balancing flexibility with the need to ship fast"</mark>.</div>
+              </div>
+            </div>
+            <div class="star-row action" style="border-color:var(--star-a);">
+              <div class="star-letter" style="color:var(--star-a);">A</div>
+              <div>
+                <div class="star-label">ACTION</div>
+                <div class="star-text">I <mark class="gap">your first decision—e.g., "set up a lightweight Node.js service with a REST API," "chose OpenAI and Claude as the first two providers," "built a simple routing layer"</mark>. I cut scope by <mark class="gap">what you deferred—e.g., "deferring observability dashboards to v2," "using environment variables instead of a config UI," "skipping advanced retry logic"</mark>. I communicated <mark class="gap">how you kept stakeholders informed—e.g., "weekly updates to the AI team with a clear 'what's in, what's out' doc," "flagged the observability gap as a known risk"</mark>. I shipped <mark class="gap">the delivery milestone—e.g., "the MVP in five weeks," "a working gateway two days before the feature launch"</mark>.</div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-r);">
+              <div class="star-letter" style="color:var(--star-r);">R</div>
+              <div>
+                <div class="star-label">RESULT</div>
+                <div class="star-text"><mark class="gap">The outcome—e.g., "The gateway handled 10k requests/day in the first month," "Three teams onboarded in the first quarter," "We hit the launch deadline and added observability in the next sprint"</mark>. The tradeoff was <mark class="gap">the cost of moving fast—e.g., "we accumulated some tech debt in the routing logic," "the error handling was basic"</mark>, but we <mark class="gap">how you addressed it—e.g., "paid it down over the next two months," "it didn't block any teams"</mark>.</div>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>SPOKEN DRAFT (click to expand)</summary>
+            <div class="draft">
+              <p>At Highspot, we needed an internal LLM gateway to <mark class="gap">business goal</mark>. We had <mark class="gap">timeline</mark> to ship a working MVP before <mark class="gap">the external milestone</mark>. The requirements were still <mark class="gap">the ambiguity</mark>.</p>
+              <p>I owned the design and build—<mark class="gap">your scope</mark>. The challenge was making architectural decisions without full clarity on <mark class="gap">the unknowns</mark>.</p>
+              <p>I made a few key calls early. I <mark class="gap">first decision</mark>. I cut scope by <mark class="gap">what you deferred</mark>. I kept the AI team and leadership updated weekly with a clear "what's in, what's out" doc, and flagged <mark class="gap">the known risk</mark> as something we'd address in v2.</p>
+              <p>I shipped the MVP in <mark class="gap">actual time</mark>. The gateway handled <mark class="gap">usage or outcome</mark> in the first month, and <mark class="gap">adoption metric</mark> onboarded in the first quarter. We hit the launch deadline, and I added <mark class="gap">the deferred feature</mark> in the next sprint.</p>
+              <p>The tradeoff was <mark class="gap">the tech debt</mark>, but we <mark class="gap">how you resolved it</mark>. The lesson for me was <mark class="gap">a specific takeaway—e.g., "that it's better to ship a simple, working system and iterate than to wait for perfect requirements," "that cutting scope is a skill—you have to know what's truly MVP"</mark>.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="dont-box">
+        ✗ DON'T blame the deadline, say you "just worked harder," or miss the lesson about cutting scope intelligently.
+      </div>
+    </article>
+
+    <article class="card" id="b5" style="border-top-color:var(--beh);">
+      <div class="card-header">
+        <div>
+          <div class="card-id" style="border-color:var(--beh);color:var(--beh);">B5</div>
+        </div>
+        <div class="card-title-block">
+          <h3 class="card-title" style="color:var(--beh);">PROUDEST ACHIEVEMENT</h3>
+          <p class="card-question">Tell me about your proudest achievement, or a time you led without formal authority</p>
+        </div>
+        <div class="card-time">90s–2m</div>
+      </div>
+
+      <div class="really-asking">
+        <strong>Really asking:</strong> What do you value? Can you lead without a title? What does "good work" look like to you?
+      </div>
+
+      <div class="tags">
+        <span class="tag" style="border-color:var(--beh);color:var(--beh);">LEADERSHIP</span>
+        <span class="tag" style="border-color:var(--beh);color:var(--beh);">OWNERSHIP</span>
+        <span class="tag" style="border-color:var(--story);color:var(--story);">STORY: LLM Gateway / Highspot (lead)</span>
+      </div>
+
+      <div class="behavioral-card">
+        <div class="behavioral-left">
+          <div class="how-scored">
+            <h4>Competency this is coded against:</h4>
+            <p><strong>Leadership without authority and ownership.</strong> Interviewers score whether you took initiative beyond your job description, influenced others without formal power, and delivered a result that mattered to the business or team. A rubric checks: Was it your idea or assignment? Did you drive it? Did it have impact?</p>
+          </div>
+
+          <div class="comparison">
+            <div class="comparison-panel strong">
+              <div class="comparison-title">STRONG (4/4)</div>
+              <ul>
+                <li>Took initiative on a problem no one asked you to solve</li>
+                <li>Influenced peers, PMs, or managers without authority</li>
+                <li>Delivered a result with measurable impact</li>
+                <li>Showed pride in the craft or outcome</li>
+              </ul>
+            </div>
+            <div class="comparison-panel weak">
+              <div class="comparison-title">WEAK (1/4)</div>
+              <ul>
+                <li>Did what you were told (not leadership)</li>
+                <li>Vague "we" with no clear ownership</li>
+                <li>No result, or result was someone else's</li>
+                <li>Story is just about working hard</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flags">
+            <h4>Green flags / Red flags:</h4>
+            <ul>
+              <li class="flag-chip green">Identified the problem yourself</li>
+              <li class="flag-chip green">Convinced others to support it</li>
+              <li class="flag-chip green">Named a metric or outcome that shows impact</li>
+              <li class="flag-chip red">Vague "we did this" with no "I"</li>
+              <li class="flag-chip red">No clear result or just effort</li>
+              <li class="flag-chip red">Took credit for a team's work</li>
+            </ul>
+          </div>
+
+          <div class="probe">
+            <h4>Likely follow-up probe:</h4>
+            <p>"What made this your proudest moment, not just a successful project?" — Show what you value. Talk about the craft, the team, or the customer impact. Use confirmed facts from the LLM gateway story.</p>
+          </div>
+        </div>
+
+        <div class="behavioral-right">
+          <div class="star-stack">
+            <div class="star-row" style="border-color:var(--star-s);">
+              <div class="star-letter" style="color:var(--star-s);">S</div>
+              <div>
+                <div class="star-label">SITUATION</div>
+                <div class="star-text">At Highspot, we were building AI features, but <mark class="gap">the problem you identified—e.g., "every team was integrating LLMs independently, creating duplication and security risk," "there was no consistent way to manage prompts or rate limits," "observability was fragmented"</mark>. No one had asked for a gateway—<mark class="gap">your initiative—e.g., "I saw the need and pitched it to leadership," "I wrote a proposal doc"</mark>.</div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-t);">
+              <div class="star-letter" style="color:var(--star-t);">T</div>
+              <div>
+                <div class="star-label">TASK</div>
+                <div class="star-text">I needed to convince <mark class="gap">who you influenced—e.g., "the VP of Engineering," "three product teams," "the security team"</mark> that this was worth building, and then design and ship it without <mark class="gap">the constraint—e.g., "a dedicated team," "a formal roadmap slot," "full requirements"</mark>.</div>
+              </div>
+            </div>
+            <div class="star-row action" style="border-color:var(--star-a);">
+              <div class="star-letter" style="color:var(--star-a);">A</div>
+              <div>
+                <div class="star-label">ACTION</div>
+                <div class="star-text">I <mark class="gap">your first action—e.g., "wrote a two-page proposal with the problem, the cost of inaction, and a lightweight MVP plan," "presented it in a staff meeting," "got buy-in from the AI PM"</mark>. I designed <mark class="gap">the architecture or technical choices—e.g., "a Node.js service with a REST API, model routing, and simple observability hooks," "support for OpenAI and Claude first"</mark>. I built <mark class="gap">your build scope—e.g., "the initial version in six weeks, working nights and weekends to stay on the timeline"</mark>. I onboarded <mark class="gap">the rollout—e.g., "the first three teams by writing docs, running demo sessions, and pair-programming the integration"</mark>.</div>
+              </div>
+            </div>
+            <div class="star-row" style="border-color:var(--star-r);">
+              <div class="star-letter" style="color:var(--star-r);">R</div>
+              <div>
+                <div class="star-label">RESULT</div>
+                <div class="star-text"><mark class="gap">The outcome—e.g., "Within three months, all AI features at Highspot went through the gateway," "We handled 50k requests/day," "Security signed off because we centralized API key management," "The AI team saved an estimated 200 engineering hours by not rebuilding integrations"</mark>. What made me proud was <mark class="gap">the craft or impact—e.g., "seeing other teams adopt something I built from scratch," "solving a problem no one asked me to solve," "the architecture scaled without major rewrites"</mark>.</div>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>SPOKEN DRAFT (click to expand)</summary>
+            <div class="draft">
+              <p>At Highspot, we were building AI features, but <mark class="gap">the problem</mark>. No one had asked for a gateway—I saw the need and <mark class="gap">your pitch action</mark>.</p>
+              <p>I needed to convince <mark class="gap">who</mark> that this was worth building, and then design and ship it without <mark class="gap">the constraint</mark>.</p>
+              <p>I wrote a two-page proposal with the problem, the cost of inaction, and a lightweight MVP plan. I presented it in <mark class="gap">the forum</mark> and got buy-in from <mark class="gap">key stakeholder</mark>. Then I designed <mark class="gap">the architecture</mark> and built the initial version in <mark class="gap">timeline</mark>. I onboarded the first three teams by <mark class="gap">rollout actions</mark>.</p>
+              <p>Within three months, <mark class="gap">adoption outcome</mark>. We handled <mark class="gap">usage metric</mark>, and <mark class="gap">a key win—e.g., "Security signed off," "the AI PM called it the best infrastructure decision we made that year"</mark>.</p>
+              <p>What made me proud was <mark class="gap">the craft or impact reason</mark>. It was my idea, I drove it, and it became the foundation for all our AI work.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="dont-box">
+        ✗ DON'T use vague "we" language, claim credit for someone else's work, or pick a story with no measurable result.
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="stories">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--story);">BANK</span>
+      <h2 class="section-title" style="color:var(--story);">STORY BANK</h2>
+    </div>
+
+    <div class="story-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Story</th>
+            <th>Confirmed facts</th>
+            <th>Answers</th>
+            <th>Use</th>
+            <th>Open gaps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LLM Gateway / Highspot</strong></td>
+            <td>Designed and built internal LLM gateway; AI features work; Highspot 2023–2026; React, TypeScript, Node.js stack.</td>
+            <td>
+              <div class="answer-chips">
+                <span class="answer-chip lead">B4</span>
+                <span class="answer-chip lead">B5</span>
+              </div>
+            </td>
+            <td>Lead</td>
+            <td>Business goal, timeline, architecture details, usage metrics, adoption numbers, rollout process, specific tradeoffs, what you deferred.</td>
+          </tr>
+          <tr class="backup">
+            <td><strong>AI Features / Highspot</strong></td>
+            <td>Shipped AI features at Highspot; React, TypeScript, Node.js stack; 2023–2026 tenure.</td>
+            <td>
+              <div class="answer-chips">
+                <span class="answer-chip backup">B1</span>
+              </div>
+            </td>
+            <td>Backup (seed for B1 failure)</td>
+            <td>Which features, what went wrong or was hard, the team structure, the customer outcome, a specific failure or learning moment.</td>
+          </tr>
+          <tr class="backup">
+            <td><strong>8 yrs Full-stack / General</strong></td>
+            <td>8 years React, TypeScript, Node.js experience; full-stack role; Highspot is most recent (2023–2026).</td>
+            <td>
+              <div class="answer-chips">
+                <span class="answer-chip lead">A1</span>
+                <span class="answer-chip backup">B2</span>
+                <span class="answer-chip backup">B3</span>
+              </div>
+            </td>
+            <td>Backup (can seed B2, B3)</td>
+            <td>Earlier companies, roles, and outcomes before Highspot; specific conflict or disagreement stories; team sizes; notable projects.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="ask">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--ask);">03</span>
+      <h2 class="section-title" style="color:var(--ask);">QUESTIONS TO ASK THEM</h2>
+    </div>
+
+    <div class="ask-cards">
+      <article class="ask-card" id="q1">
+        <div class="ask-card-header">
+          <span class="ask-badge">Q1</span>
+          <h3 class="ask-label">AI ROADMAP</h3>
+        </div>
+        <p class="ask-question">What's on the AI roadmap for the next 6–12 months, and how does this role contribute to those goals?</p>
+      </article>
+
+      <article class="ask-card" id="q2">
+        <div class="ask-card-header">
+          <span class="ask-badge">Q2</span>
+          <h3 class="ask-label">SUCCESS METRICS</h3>
+        </div>
+        <p class="ask-question">How will you measure success for this role in the first six months? What does "great" look like?</p>
+      </article>
+
+      <article class="ask-card" id="q3">
+        <div class="ask-card-header">
+          <span class="ask-badge">Q3</span>
+          <h3 class="ask-label">SPEED VS QUALITY</h3>
+        </div>
+        <p class="ask-question">How does the team balance speed and quality when shipping AI features? Can you give me an example of a recent tradeoff?</p>
+      </article>
+
+      <article class="ask-card" id="q4">
+        <div class="ask-card-header">
+          <span class="ask-badge">Q4</span>
+          <h3 class="ask-label">TEAM STRUCTURE</h3>
+        </div>
+        <p class="ask-question">What does the team structure look like? How do full-stack engineers collaborate with PMs, designers, and ML engineers here?</p>
+      </article>
+
+      <article class="ask-card" id="q5">
+        <div class="ask-card-header">
+          <span class="ask-badge">Q5</span>
+          <h3 class="ask-label">NEXT STEPS</h3>
+        </div>
+        <p class="ask-question">What are the next steps in the process, and when should I expect to hear back?</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="quickref">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--c0);">REF</span>
+      <h2 class="section-title" style="color:var(--c0);">ONE-SCREEN QUICK REFERENCE</h2>
+    </div>
+
+    <div class="quick-ref-grid">
+      <!-- A1 -->
+      <div class="quick-tile" style="border-top-color:var(--hr);">
+        <div class="quick-id" style="color:var(--hr);">A1</div>
+        <div class="quick-title">TELL ME ABOUT YOURSELF</div>
+        <div class="quick-time">60–90s</div>
+        <span class="quick-asking">Level + communication</span>
+        <ul class="quick-bullets">
+          <li>8 yrs full-stack React/TS/Node</li>
+          <li>Highspot 2023–26: LLM gateway + AI features</li>
+          <li>End on "why Acme"</li>
+        </ul>
+        <div class="quick-dont">✗ Don't recite resume or go past 90s</div>
+      </div>
+
+      <!-- A2 -->
+      <div class="quick-tile" style="border-top-color:var(--hr-alt);">
+        <div class="quick-id" style="color:var(--hr-alt);">A2</div>
+        <div class="quick-title">WHY LOOKING?</div>
+        <div class="quick-time">30–60s</div>
+        <span class="quick-asking">Motivation + flight risk</span>
+        <ul class="quick-bullets">
+          <li>Built foundation, ready for next chapter</li>
+          <li>Want AI as core product, not feature</li>
+          <li>Positive tone, no bad-mouthing</li>
+        </ul>
+        <div class="quick-dont">✗ Don't trash employer</div>
+      </div>
+
+      <!-- A3 -->
+      <div class="quick-tile" style="border-top-color:var(--hr);">
+        <div class="quick-id" style="color:var(--hr);">A3</div>
+        <div class="quick-title">WHY ACME?</div>
+        <div class="quick-time">45–60s</div>
+        <span class="quick-asking">Research + genuine interest</span>
+        <ul class="quick-bullets">
+          <li>AI-first products, not bolt-on</li>
+          <li>Name specific product/challenge</li>
+          <li>Connect your experience to their need</li>
+        </ul>
+        <div class="quick-dont">✗ Don't be generic</div>
+      </div>
+
+      <!-- A4 -->
+      <div class="quick-tile" style="border-top-color:var(--hr-alt);">
+        <div class="quick-id" style="color:var(--hr-alt);">A4</div>
+        <div class="quick-title">SALARY</div>
+        <div class="quick-time">20–40s</div>
+        <span class="quick-asking">Budget fit</span>
+        <ul class="quick-bullets">
+          <li>Give number or range + currency</li>
+          <li>Anchor on market data or current comp</li>
+          <li>Open to total comp discussion</li>
+        </ul>
+        <div class="quick-dont">✗ Don't dodge or lowball</div>
+      </div>
+
+      <!-- A5 -->
+      <div class="quick-tile" style="border-top-color:var(--hr);">
+        <div class="quick-id" style="color:var(--hr);">A5</div>
+        <div class="quick-title">LOGISTICS</div>
+        <div class="quick-time">20–40s</div>
+        <span class="quick-asking">Eligibility + blockers</span>
+        <ul class="quick-bullets">
+          <li>Vancouver, authorized, Canada</li>
+          <li>Available in [notice period]</li>
+          <li>Remote/hybrid OK</li>
+        </ul>
+        <div class="quick-dont">✗ Don't introduce visa issues</div>
+      </div>
+
+      <!-- B1 -->
+      <div class="quick-tile" style="border-top-color:var(--beh);">
+        <div class="quick-id" style="color:var(--beh);">B1</div>
+        <div class="quick-title">BIGGEST FAILURE</div>
+        <div class="quick-time">90s–2m</div>
+        <span class="quick-asking">Learning + ownership</span>
+        <ul class="quick-bullets">
+          <li>Real failure with bad outcome</li>
+          <li>Own it, no blame</li>
+          <li>Name specific lesson + behavior change</li>
+        </ul>
+        <div class="quick-dont">✗ Don't pick success story</div>
+      </div>
+
+      <!-- B2 -->
+      <div class="quick-tile" style="border-top-color:var(--beh-alt);">
+        <div class="quick-id" style="color:var(--beh-alt);">B2</div>
+        <div class="quick-title">CONFLICT</div>
+        <div class="quick-time">90s–2m</div>
+        <span class="quick-asking">Collaboration + resolution</span>
+        <ul class="quick-bullets">
+          <li>Real disagreement with stakes</li>
+          <li>Engaged directly, listened</li>
+          <li>Found compromise or escalated aligned</li>
+        </ul>
+        <div class="quick-dont">✗ Don't bad-mouth coworker</div>
+      </div>
+
+      <!-- B3 -->
+      <div class="quick-tile" style="border-top-color:var(--beh);">
+        <div class="quick-id" style="color:var(--beh);">B3</div>
+        <div class="quick-title">DISAGREED W/ MGR</div>
+        <div class="quick-time">90s–2m</div>
+        <span class="quick-asking">Judgment + commit</span>
+        <ul class="quick-bullets">
+          <li>Pushed back with data</li>
+          <li>Listened to their reasoning</li>
+          <li>Committed once decided</li>
+        </ul>
+        <div class="quick-dont">✗ Don't undermine after</div>
+      </div>
+
+      <!-- B4 -->
+      <div class="quick-tile" style="border-top-color:var(--beh-alt);">
+        <div class="quick-id" style="color:var(--beh-alt);">B4</div>
+        <div class="quick-title">TOUGH DEADLINE</div>
+        <div class="quick-time">90s–2m</div>
+        <span class="quick-asking">Bias for action + ambiguity</span>
+        <ul class="quick-bullets">
+          <li>LLM gateway: tight timeline, unclear reqs</li>
+          <li>Cut scope intelligently</li>
+          <li>Communicated risk, shipped on time</li>
+        </ul>
+        <div class="quick-dont">✗ Don't blame deadline</div>
+      </div>
+
+      <!-- B5 -->
+      <div class="quick-tile" style="border-top-color:var(--beh);">
+        <div class="quick-id" style="color:var(--beh);">B5</div>
+        <div class="quick-title">PROUDEST</div>
+        <div class="quick-time">90s–2m</div>
+        <span class="quick-asking">Leadership + ownership</span>
+        <ul class="quick-bullets">
+          <li>LLM gateway: my idea, my build</li>
+          <li>Influenced without authority</li>
+          <li>Measurable impact (usage, adoption)</li>
+        </ul>
+        <div class="quick-dont">✗ Don't use vague "we"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><strong>Sources:</strong> Resume excerpt (Senior full-stack engineer, 8 yrs React/TypeScript/Node.js, Highspot 2023–2026, LLM gateway + AI features, Vancouver/Canada authorized). Tailored for Acme Corp, senior IC level.</p>
+    <p><strong>Caveats:</strong> Input was minimal; many gaps remain (earlier experience, specific metrics, failure stories, conflict stories, compensation number). Fill gaps before interview. The 1–4 scale is a teaching device; actual rubrics vary by company.</p>
+    <p><strong>Total gaps to fill:</strong> 3 in A1, 3 in A2, 4 in A3, 2 in A4, 3 in A5, B1–B3 need full stories, B4 has 15 inline gaps, B5 has 13 inline gaps.</p>
+  </div>
+</footer>
+
+<script>
+function toggleDrafts(){
+  document.querySelectorAll('details').forEach(d=>d.open=!d.open);
+}
+window.addEventListener('beforeprint',()=>{
+  document.querySelectorAll('details').forEach(d=>d.open=true);
+});
+</script>
+
+</body>
+</html>

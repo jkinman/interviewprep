@@ -5,6 +5,16 @@ const { marked } = require('marked');
 const hljs = require('highlight.js');
 const { v4: uuidv4 } = require('uuid');
 
+// Read Sugar Glider logo (48x48 PNG, base64)
+let SG_LOGO_B64 = '';
+try {
+  const logoBuf = fs.readFileSync(path.join(__dirname, 'static', 'sugar-glider-logo-48.png'));
+  SG_LOGO_B64 = logoBuf.toString('base64');
+  console.log(`Sugar Glider logo loaded: ${SG_LOGO_B64.length} base64 chars`);
+} catch (e) {
+  console.warn('Sugar Glider logo not found, skipping.');
+}
+
 const app = express();
 const PORT = process.env.PORT || 8082;
 
@@ -113,7 +123,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-
 .ft a{color:#6366f1;text-decoration:none}
 @media(max-width:640px){.w{padding:0 12px 80px}.c{padding:20px}.c h1{font-size:22px}.hero{padding:24px 20px 32px}.hero h2{font-size:20px}.top{flex-direction:column;gap:6px;text-align:center}}
 </style></head><body>
-<div class="top"><h1>Interview Prep Cheat Sheet</h1>${isRoot ? `<span class="s">Share: <code onclick="cs()">${shareUrl}</code></span>` : `<span class="s"><code>${uuid}</code></span>`}</div>
+<div class="top"><div style="display:flex;align-items:center;gap:10px"><img src="data:image/png;base64,${SG_LOGO_B64}" alt="" style="width:28px;height:28px;border-radius:5px"><div><span style="font-size:10px;color:#a5b4fc;font-weight:600;text-transform:uppercase;letter-spacing:.4px;display:block;line-height:1.1">Sugar Glider</span><h1 style="font-size:15px;font-weight:600;margin:0">Interview Prep</h1></div></div>${isRoot ? `<span class="s">Share: <code onclick="cs()">${shareUrl}</code></span>` : `<span class="s"><code>${uuid}</code></span>`}</div>
 <div class="w">${hero}<div class="c">${content}</div></div>
 <div class="ft">Built from <a href="https://github.com/jkinman/interviewprep">interviewprep</a></div>
 <span id="pt" style="display:none">${pEsc}</span>
