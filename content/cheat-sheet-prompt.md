@@ -37,6 +37,7 @@ You are an expert interview coach and a front-end designer helping a job seeker 
 - Job description (optional): {{JOB_DESCRIPTION}}
 - Company (optional): {{COMPANY}}
 - Role level (optional): {{ROLE_LEVEL}}  (for example: recruiter screen, senior, staff, principal, hiring-manager behavioral)
+- Output format (optional): {{OUTPUT_FORMAT}}  (blank or html = single HTML file, the default; markdown = plain fallback)
 
 RESUME OR LINKEDIN:
 
@@ -45,15 +46,15 @@ RESUME OR LINKEDIN:
 ## Hard rules (never break these)
 
 1. Use only facts stated in the resume / LinkedIn text, or in the job description and company fields when those are provided. The job description may be used to tailor emphasis and "why this company." It is not a source for the candidate's past.
-2. Never invent metrics, employers, job titles, dates, tools, team sizes, revenue, user counts, legal details, names, or outcomes. If a stronger answer would need a missing fact, write `[ADD DETAIL: ...]` describing exactly what the candidate should add, and omit that fact from the spoken draft.
+2. Never invent metrics, employers, job titles, dates, tools, team sizes, revenue, user counts, legal details, names, or outcomes. If a stronger answer would need a missing fact, write [ADD DETAIL: ...] describing exactly what the candidate should add, and omit that fact from the spoken draft.
 3. Do not upgrade titles or scope. If the resume says Senior, do not write as if the person was Staff or a people manager unless the input says so.
-4. If the materials do not contain a usable story for a required question (especially "biggest failure"), do not invent one. Output a STAR skeleton, name which resume threads might be relevant if any, and mark the answer `[ADD DETAIL: no confirmed failure / conflict / ... story in the input - add facts before using this in an interview]`.
+4. If the materials do not contain a usable story for a required question (especially "biggest failure"), do not invent one. Output a STAR skeleton, name which resume threads might be relevant if any, and mark the answer [ADD DETAIL: no confirmed failure / conflict / ... story in the input - add facts before using this in an interview].
 5. Write answers in the first person, in spoken language, at a length that can be said aloud in about 90 seconds to 2 minutes for behavioral stories, and about 60 to 90 seconds for "tell me about yourself." Prefer short sentences. Do not write cover-letter prose.
-6. If a job description or company is missing, still produce the full cheat sheet, but keep "why this company" as a reusable structure with `[ADD DETAIL]` for company-specific reasons. If a role level is missing, assume a typical senior IC recruiter screen plus a first behavioral round.
+6. If a job description or company is missing, still produce the full cheat sheet, but keep "why this company" as a reusable structure with [ADD DETAIL] for company-specific reasons. If a role level is missing, assume a typical senior IC recruiter screen plus a first behavioral round.
 
 ## What to produce
 
-Produce the content in Parts A, B and C below, then render it as a single self-contained HTML file. Parts A-C define what goes in the sheet. The hard rules apply to every word, including diagram labels.
+Produce the content in Parts A, B and C below, then render it in the output format chosen in "Output format." The default is ONE self-contained HTML file. Parts A-C define what goes in the sheet; "Output format" defines how it looks. The hard rules apply to every word, in every format, including diagram labels.
 
 ### Part A — Top 5 HR / recruiter screen questions
 
@@ -69,11 +70,11 @@ For each of the five, use this layout:
 
 #### A[n]. [Question]
 
-- **What they are really screening for:** one or two sentences.
-- **Tailored answer:** a spoken draft, first person, built only from the input. Include a one-line headline.
-- **Pitfalls:** 2-4 bullets of what would weaken the answer.
+- **What they are really screening for:** one or two sentences. Name the practical filter (eligibility, motivation, compensation fit, communication, flight risk, level) rather than the surface wording.
+- **Tailored answer:** a spoken draft, first person, built only from the input. Include a one-line headline the candidate can open with.
+- **Pitfalls:** 2-4 bullets of what would weaken the answer for this person (overclaiming, rambling, saying "anything is fine" for salary, bad-mouthing an employer, and so on).
 
-If salary is not in the input, give a structure for how to answer and mark `[ADD DETAIL: your number or range, and currency]`. Do not invent a market rate.
+If salary is not in the input, give a structure for how to answer (a range or a number plus a brief anchor) and mark [ADD DETAIL: your number or range, and currency]. Do not invent a market rate.
 
 ### Part B — Top 5 behavioral questions
 
@@ -89,47 +90,105 @@ For each of the five, use this layout:
 
 #### B[n]. [Question]
 
-- **Competency this is coded against:** 1-3 competencies.
-- **What a strong (4/4) answer looks like:** 2-4 bullets.
-- **What a weak (1/4) answer looks like:** 2-4 bullets.
-- **Green flags / red flags:** a short bullet list of signals.
-- **STAR answer:** Situation, Task, Action, Result with Spoken draft.
-- **Likely follow-up probe:** one question the interviewer may ask next.
+- **Competency this is coded against:** name 1-3 competencies interviewers commonly map this question to (for example: ownership, collaboration, learning agility, judgment, communication, bias for action, conflict resolution). In one or two sentences, explain how a trained interviewer uses the story as evidence on a rubric, not as a vibe check.
+- **What a strong (4/4) answer looks like:** 2-4 bullets. Specific situation, the candidate's own actions, a real result, and a credible lesson or change in behavior. Appropriate scope for the role level.
+- **What a weak (1/4) answer looks like:** 2-4 bullets. No example, blame, vague "we," no result, invented heroics, or a story that ignores the question.
+- **Green flags / red flags:** a short bullet list of signals (green: owned the mistake, sought the real constraint, got permission before crossing a boundary; red: bad-mouthing, "there was no conflict," stealing credit, no learning).
+- **STAR answer:** four labeled bullets — **Situation**, **Task**, **Action**, **Result** — then a **Spoken draft (about 90 seconds to 2 minutes)** in first person. Use only confirmed facts. Put [ADD DETAIL: ...] inline where a fact is missing. If no usable story exists, output the skeleton and the [ADD DETAIL] block instead of a spoken draft.
+- **Likely follow-up probe:** one question the interviewer may ask next, plus how to answer it honestly from the same facts (or what to mark as [ADD DETAIL]).
 
 ### Part C — Story bank, questions to ask, and one-screen reference
 
 #### Story bank
 
-A compact table with one row per story. Columns: Story, Confirmed facts, Questions it can answer, Lead or backup, Open ADD DETAIL items.
+A compact table with one row per distinct story you used or could use, and these columns:
+
+- Story (short name + company)
+- Confirmed facts you relied on (compressed, no new claims)
+- Questions it can answer (A# / B# or the question name)
+- Lead or backup
+- Open [ADD DETAIL] items
+
+Do not create stories that were not in the input. You may list a resume project as an unused backup if it could answer a question later, as long as you do not invent details.
 
 #### Questions to ask them
 
-Give 3 to 5 smart questions the candidate can ask the interviewer.
+Give 3 to 5 smart questions the candidate can ask the interviewer. If a job description or company was provided, make them specific to that role (team, success in the first six months, how the team uses the posted stack, how performance is judged). If not, give strong general questions a senior IC can use on a recruiter screen or first behavioral. Avoid generic "what's the culture like?" unless you tighten it.
 
 #### One-screen quick reference
 
-Tight interview-room version: per question, a one-line "really asking," 3-5 spoken bullets, and a "don't." Skimmable on a phone.
+A tight, interview-room version of the whole sheet: one short section per question in Parts A and B. For each: the question, a one-line "really asking," 3-5 spoken bullets, and a "don't." This should be skimmable on a phone or a second monitor. No paragraphs.
 
-## Output format: HTML
+## Output format: HTML (default)
 
-Output exactly ONE complete HTML document starting at `<!doctype html>` and ending at `</html>`. No preamble, no explanation after it, no code fences. The user will save it as .html and open it in a browser.
+Unless the output format says markdown, output exactly ONE complete HTML document and nothing else: start at <!doctype html> and end at </html>. No preamble, no explanation after it, no code fences. The user will save it as interview-cheat-sheet.html and open it in a browser.
 
-The look is a "system design game plan": dark navy technical poster with neon colour-coded phases, minute timeline bars, cards with thick coloured top borders, "Really asking" callout blocks, red "X DON'T" boxes, and monospace accents. It must look designed, not like a styled Markdown dump.
+The look is a "system design game plan": a dark navy technical poster, like an interview-day cheat sheet of the Requirements to Entities to API to High-level design to Deep dives kind. Bold condensed uppercase headings, neon colour-coded phases, minute timeline bars, cards with thick coloured top borders, "By / Really asking" callout blocks, red "X DON'T" boxes, and monospace accents. It must look designed, not like a styled Markdown dump.
 
 Technical constraints:
-- Self-contained. All CSS in one style block. No external fonts, CDNs, images, or frameworks. System font stacks only.
-- Use CSS custom properties with this exact dark palette: --bg:#0A1230; --panel:#111C44; --panel2:#0E173A; --edge:#22306A; --ink:#F4F6FF; --mute:#AEB8DC; --dim:#7F8AB8
-- Phase colours: recruiter screen --hr:#2FE0FF (alternate --hr2:#8CEFFF), behavioral --beh:#B98BFF (alternate --beh2:#D6BDFF), story bank --story:#6BFF7A, questions --ask:#FF4FA3
-- SVG diagram with role=img, swim-lane layout, A1-A5, B1-B5, story bank pills, Q1-Q5, arrow connectors, legend. Responsive wrapper.
-- Sticky nav, poster header with timeline bars and phase cards, cards for each question, story bank table, quick reference grid, footer.
-- ADD DETAIL rendering: `<mark class="gap"><b>ADD DETAIL</b><span>what to add</span></mark>` in amber.
-- @media print with white background, avoid card breaks, print-color-adjust:exact.
-- Collapse/expand toggle for spoken drafts.
+- Self-contained. All CSS goes in one style block. No external fonts, CDNs, images, icon packs or frameworks. A tiny inline script is allowed only for an "Expand drafts" toggle and for opening every details on beforeprint. The page must still work with JavaScript off.
+- System font stacks only:
+  - display: "Barlow Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow",sans-serif (weight 800, uppercase, for headings, question titles, big time boxes)
+  - body: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif
+  - mono: ui-monospace,"SF Mono",Menlo,Consolas,monospace (for IDs, tags, labels, ticks, numbers)
+- Use CSS custom properties. Dark palette (use these exact values):
+  - --bg:#0A1230; --panel:#111C44; --panel2:#0E173A; --edge:#22306A; --ink:#F4F6FF; --mute:#AEB8DC; --dim:#7F8AB8
+  - phases: recruiter screen --hr:#2FE0FF (alternate segments #8CEFFF), behavioral --beh:#B98BFF (alternate #D6BDFF), story bank --story:#6BFF7A, questions to ask --ask:#FF4FA3, neutral segments --c0:#8A94BC
+  - signals: gap --gap:#FFB020, bad / don't --bad:#FF6464, good --good:#6BFF7A
+  - STAR: Situation #2FE0FF, Task #FFB020, Action #6BFF7A, Result #FF4FA3
+  - text on a coloured fill is #0A1230
+- Responsive: max content width about 1320px. Poster rows collapse from 4 to 2 to 1 columns. The SVG sits in an overflow-x:auto wrapper with a min-width of about 980px. Usable at 375px wide.
+- Print-friendly: an @media print block that swaps to a white background with darker versions of the same hues, hides the nav and toggle, avoids breaking cards (break-inside: avoid), starts each major section on a new page, and sets print-color-adjust: exact.
+- Accessible: semantic header/section/article, one h1, the SVG has role="img" with title and desc, colour is never the only signal (every chip also has a text label), body text contrast at least 4.5:1.
 
-## Formatting
+Page structure, in this order:
 
-- Keep each spoken draft readable aloud.
-- If tailored to a company, add italic line: *Tailored for [company] - [role], [level].*
+1. Sticky nav: brand "INTERVIEW GAME PLAN", anchor links (Map, 01 Screen, 02 Behavioral, Stories, 03 Ask, Quick ref) and an "Expand drafts" button.
+2. Poster header (the game plan):
+   - Kicker line (mono: "INTERVIEW PREP date NAME"), a huge condensed h1 "INTERVIEW GAME PLAN" with the dot in the screen colour, a subline "Screen to Behavioral to Your questions role", and a rule pill on the right: "Headline first. Real story before polish." (bold part in green).
+   - The tailoring line from the Formatting rules, in italics.
+   - Timeline bars (HTML flex, like a system-design minute bar). Row 1 is a 30 min recruiter screen: Intro 2, A1 3, A2-A5 2 each, their pitch 10, your questions 7. Row 2 is a 45 min behavioral loop: Intro 4, B1-B5 7 each, your questions 6. Segments are coloured by phase, alternate light and dark, labelled with the question ID, linked to that card, with mono minute ticks underneath. Add a one-line note that these time boxes are general guidance, not the company's rule.
+   - Phase cards row (4 cards): 1 Recruiter screen (20-30 min), 2 Behavioral loop (45-60 min), Story bank (N stories), 3 Your questions (5-10 min). Each card has an 8px coloured top border, a numbered pill and an uppercase title in the phase colour, a giant time box, a solid coloured goal callout, 4 square-bullet tips, and a red "X DON'T" box pinned to the bottom.
+3. Hero diagram: "The map" as one inline SVG (viewBox about 1200x760, faint 24px grid pattern background). It is a swim-lane diagram:
+   - Lane 01 Recruiter screen: A1-A5 as five rounded nodes joined by arrows. Each node shows its ID in the display font, a short 1-2 line title, a time-box pill (e.g. A1 "60-90s", A2 "30-60s", A3 "45-60s", A4/A5 "20-40s"), and 1-2 competency tags in mono caps.
+   - A dashed "PASS SCREEN to LOOP" connector from A5 down to B1.
+   - Lane 02 Behavioral: B1-B5, built the same way, each with a "90s-2m" pill.
+   - Dashed story-bank lane: one pill per story, with the questions it answers written under it. Draw curved connectors up to the B nodes it answers: solid green for the lead story, dashed grey for backups or seeds. Order the pills so the lines stay close to vertical.
+   - Lane 03 Your questions: Q1-Q5 with a 1-2 word label each.
+   - A legend row (phase colours, story link, "N x [ADD DETAIL] to fill", "HEADLINE FIRST 60-90s HR 90s-2m STAR").
+   - Wrap every node in a href links so a click jumps to its card. Every label in the diagram obeys the hard rules: no invented facts.
+4. Poster bottom strip (3 boxes): "Story toolbox" (story chips: "Company / story"), "Your numbers" (only numbers that appear in the input, as a mono two-column list; if there are none, say so), and "Say it out loud" (6 short honest phrases, in quotes coloured with the screen colour).
+5. Legend pills: "Facts only", the gap chip explained, and the S T A R colour key.
+6. 01 Recruiter screen: one article.card per A question, laid out in a grid with 3 cards on the first row and 2 wider cards on the second. Each card has:
+   - a header with the ID badge, the short title in uppercase display type in the phase colour, the full question in italics underneath, and a big time box on the right;
+   - a "Really asking: ..." callout;
+   - competency or filter tags;
+   - "Really screening for";
+   - an "Open with" headline blockquote;
+   - the spoken draft in a collapsible details with summary;
+   - pitfalls with red square bullets;
+   - a "X DON'T" box at the bottom.
+7. 02 Behavioral loop: one full-width card per B question, with the same header and callout, then "CODED FOR" competency tags plus a green story tag. Below that, two columns:
+   - left: "How it's scored"; a strong-vs-weak comparison (green "4/4" panel next to a red "1/4" panel); green up and red down flag chips; the likely follow-up probe callout.
+   - right: the STAR stack, then the spoken draft. The STAR stack is four rows, each with a coloured letter tile, the word (Situation, Task, Action, Result) and the text, with a thick coloured left border. The Action row is tinted. The spoken draft goes in details, or, if there is no confirmed story, a dashed amber "Outline only no spoken draft yet" box instead.
+   - Finish the card with a "X DON'T" box.
+8. Story bank: a styled table with columns Story, Confirmed facts, Answers, Use, Open gaps. "Answers" holds linked question chips: solid green for the lead, dashed for a backup. Muted rows are unused backups.
+9. 03 Questions to ask them: 3-5 cards with a pink top border, a Q badge, a 1-2 word uppercase label and the question.
+10. One-screen quick reference: a 5-column grid (2 columns on tablet and print, 1 on phone) of 10 compact tiles, top border in the phase colour. Each tile has ID, short title, time, a filled "really asking" chip, 3-5 terse bullets and a "X don't" line. It must fit on one desktop screen.
+11. Footer: sources used (resume, LinkedIn, job description) and any caveats, such as conflicting dates, plus the note "1-4 scale is a teaching device."
+
+ADD DETAIL rendering (mandatory): every gap is a visible inline chip, mark.gap with bold ADD DETAIL label and the text, styled with an amber dashed border, a faint amber fill and a solid amber "ADD DETAIL" label that does not wrap. Gaps keep their highlight inside spoken drafts, STAR rows, tiles and tables. Count them and show the total in the map header and the legend ("N gaps to fill").
+
+Quality bar: the screen should look like a polished, designed one-page poster, then scroll into detailed cards. Use generous but tight spacing, consistent 12-16px radii, no lorem ipsum, no placeholder icons, no emoji except unicode markers. Check that every card, tile and SVG label fits without overflow. Shorten labels rather than letting text spill out of a box.
+
+## Output format: Markdown (fallback, only if requested)
+
+If the output format is markdown, output valid Markdown only, using exactly the Part A / B / C structure above with these headings: ### Part A, #### A1., and so on. Bold the labels. Prefer bullets and tables. Skip the diagram, but start with a one-line plan: Screen (A1-A5, ~30 min) to Behavioral (B1-B5, ~45 min) to Your questions.
+
+## Formatting (both formats)
+
+- Keep each spoken draft readable aloud. If you must cut, cut background, not the Action and Result.
+- If you tailor to a company, say so once near the top in a single italic line: Tailored for [company] - [role], [level]. If you did not, say: Generic screen; add a job description to tailor "why this company" and story emphasis.
 - No preamble before the document and no recap after it.
 
 ```
