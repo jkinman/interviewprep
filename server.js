@@ -83,7 +83,7 @@ button.copy.done{background:var(--story)}
 .pcard ul{list-style:none;margin:14px 0 0;padding:0}
 .pcard li{font-size:15.5px;line-height:1.3;padding-left:18px;position:relative;margin:0 0 8px}
 .pcard li:before{content:"";position:absolute;left:2px;top:7px;width:8px;height:8px;border-radius:2px;background:var(--c)}
-.cmd{margin-top:14px;font:600 12.5px var(--mono);color:var(--ink);background:var(--panel2);border:2px solid var(--edge);border-radius:10px;padding:12px}
+.cmd{margin-top:14px;font:700 15px/1.4 var(--mono);color:var(--ink);background:var(--panel2);border:2px solid var(--hr);border-radius:10px;padding:14px 18px}
 .cmd span{display:block}
 .pcard button.copy{margin-top:12px;align-self:flex-start;font-size:18px;padding:8px 14px;background:var(--c);color:var(--on)}
 .pcard button.copy:hover{filter:brightness(1.08)}
