@@ -88,6 +88,10 @@ button.copy.done{background:var(--story)}
 .pcard button.copy{margin-top:12px;align-self:flex-start;font-size:18px;padding:8px 14px;background:var(--c);color:var(--on)}
 .pcard button.copy:hover{filter:brightness(1.08)}
 .note{margin-top:auto;padding-top:12px;font-size:14px;color:var(--mute)}
+.plug{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px;padding:16px 18px;border-radius:14px;background:var(--panel);border:2px solid var(--ask);color:var(--ink);font:800 26px/1.15 var(--display);letter-spacing:.3px}
+.plug b{color:var(--ask)}
+.plug .go{font:700 13px var(--mono);color:var(--ask);letter-spacing:.06em}
+.plug:hover{background:#241433}
 footer{margin-top:28px;padding-top:16px;border-top:2px solid var(--edge);color:var(--faint);font-size:13px}
 footer a{color:var(--mute)}
 footer a:hover{color:var(--ink)}
@@ -150,6 +154,10 @@ footer a:hover{color:var(--ink)}
       <p class="note">Run that once. Then ask for an interview game plan and give it your resume and the job description.</p>
     </article>
   </div>
+  <a class="plug" href="https://sugarglider.work">
+    <span>Land the job. Let <b>Sugar Glider</b> do the work.</span>
+    <span class="go">sugarglider.work</span>
+  </a>
   <footer>
     <a href="https://github.com/jkinman/interviewprep">interviewprep</a>
     · a <a href="https://sugarglider.work">Sugar Glider</a> tool
