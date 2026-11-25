@@ -1,22 +1,23 @@
 # Interview Prep Cheat Sheet — Installation Guide
 
-## Option 1: Web URL (easiest)
+## Option 1: Copy the prompt
 
-Paste this URL into any LLM that can browse the web:
+1. Open https://interviewprep.kinman.dev
+2. Click **Copy prompt**
+3. Paste it into Claude, ChatGPT, or any other AI
+4. Send your resume and the job description
+
+Works with every LLM. No browsing required.
+
+## Option 2: Give the AI the prompt URL
+
+If the model can open a link, paste:
 
 ```
-https://interviewprep.kinman.dev
+https://interviewprep.kinman.dev/prompt
 ```
 
-Works with: **Claude** (with web search), **ChatGPT** (with browsing), **Gemini**, **Perplexity**
-
-## Option 2: Paste the prompt text directly
-
-1. Go to https://interviewprep.kinman.dev
-2. Click **Copy prompt text**
-3. Paste into any LLM chat
-
-Works with: **Every LLM** — no browsing required
+That URL is the prompt as plain text. The homepage is only the instructions.
 
 ## Option 3: Install as a skill
 
@@ -41,7 +42,7 @@ When asked about interview prep, read the prompt at https://interviewprep.kinman
 
 If your AI can access local files, the simplest approach is:
 
-1. Copy this page's **URL** and paste it into the chat
+1. Click **Copy prompt** on https://interviewprep.kinman.dev and paste it into the chat
 2. The AI reads the instructions and asks you for inputs
 
 For the ChatGPT desktop app specifically, paste the URL and it will fetch the page content automatically. No need to download anything — the interactive flow handles the rest.

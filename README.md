@@ -6,16 +6,17 @@ A reusable prompt that turns a resume and job description into a scannable inter
 
 ## How it works
 
-1. Open the site and click **Copy prompt for AI**
-2. Paste the prompt into Claude, ChatGPT, or any LLM
-3. Replace `{{RESUME_OR_LINKEDIN}}` with your resume text
-4. Optionally fill in `{{JOB_DESCRIPTION}}`, `{{COMPANY}}`, `{{ROLE_LEVEL}}`
-5. Get back: Top 5 HR questions + Top 5 behavioral questions (with STAR answers) + One-screen quick reference
+1. Open the site and click **Copy prompt**
+2. Paste it into Claude, ChatGPT, or any LLM
+3. Send your resume and the job description when it asks
+4. The page opens in the browser
+
+Or install the skill: `npx skills add https://github.com/jkinman/interviewprep`
 
 ## Structure
 
-- `/` — Main cheat sheet prompt
-- `/:uuid` — Shareable URL (any UUID works; same content)
+- `/` — Instruction page: copy the prompt, or install the skill
+- `/prompt` — The prompt as plain text
 - `/health` — Health check endpoint
 
 ## Run locally
@@ -30,7 +31,6 @@ Listens on port 8082.
 ## Tech
 
 - Plain Node.js with Express
-- Markdown rendered with `marked` + `highlight.js`
 - Served behind a Cloudflare tunnel at `interviewprep.kinman.dev`
 - Raspberry Pi 5 host via systemd
 

@@ -1,29 +1,18 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('marked');
-const hljs = require('highlight.js');
-const { v4: uuidv4 } = require('uuid');
 
 let SG_LOGO_B64 = '';
 try {
   const logoBuf = fs.readFileSync(path.join(__dirname, 'static', 'sugar-glider-logo-48.png'));
   SG_LOGO_B64 = logoBuf.toString('base64');
-  console.log(`Logo loaded: ${SG_LOGO_B64.length}b64`);
 } catch (e) {
   console.warn('No logo found, skipping.');
 }
 
 const app = express();
 const PORT = process.env.PORT || 8082;
-
-marked.setOptions({
-  highlight: (code, lang) => {
-    if (lang && hljs.getLanguage(lang))
-      return hljs.highlight(code, { language: lang }).value;
-    return code;
-  }
-});
+const SKILL_CMD = 'npx skills add https://github.com/jkinman/interviewprep';
 
 const CHEAT_SHEET_PATH = path.join(__dirname, 'content', 'cheat-sheet-prompt.md');
 let cheatSheetRaw = '';
@@ -35,154 +24,169 @@ function extractPrompt(raw) {
   return m ? m[1] : raw;
 }
 
-function renderPage(content, uuid, promptBlock) {
-  const isRoot = uuid === 'index';
-  const shareUrl = `https://interviewprep.kinman.dev/${uuid}`;
-  const newId = uuidv4().split('-')[0];
-  const pEsc = promptBlock.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$').replace(/<\/script>/g, '<\\/script>');
+function renderPage() {
+  const logo = SG_LOGO_B64
+    ? `<img src="data:image/png;base64,${SG_LOGO_B64}" alt="">`
+    : '';
+  const promptJson = JSON.stringify(extractPrompt(cheatSheetRaw)).replace(/</g, '\\u003c');
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Interview Prep · Sugar Glider</title>
+<title>Interview Game Plan</title>
+<meta name="description" content="Cryptic HR questions. How to answer them from your resume and the job description. Copy the prompt or install the skill.">
 <style>
 :root{
-  --bg:#0A1230;--panel:#111C44;--panel2:#0E173A;--edge:#22306A;--ink:#F4F6FF;--mute:#AEB8DC;--dim:#7F8AB8;
-  --hr:#2FE0FF;--beh:#B98BFF;--story:#6BFF7A;--ask:#FF4FA3;--gap:#FFB020;--bad:#FF6464;
-  --fd:"Barlow Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow",sans-serif;
-  --fb:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --fm:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --bg:#0A1230;--panel:#111C44;--panel2:#0E173A;--edge:#22306A;--edge2:#33468F;
+  --ink:#F4F6FF;--mute:#AEB8DC;--dim:#7F8AB8;--faint:#5E6A9A;
+  --hr:#2FE0FF;--story:#6BFF7A;--ask:#FF4FA3;--bad:#FF6464;--on:#0A1230;
+  --display:"Barlow Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow",sans-serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 85% -10%,#16245A 0%,transparent 60%),var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+h1,h2,.disp{font-family:var(--display);font-weight:800}
+nav.top{position:sticky;top:0;z-index:20;display:flex;gap:2px;align-items:center;flex-wrap:wrap;padding:8px 28px;background:rgba(10,18,48,.86);backdrop-filter:blur(10px);border-bottom:2px solid var(--edge);font:700 13px var(--mono);letter-spacing:.04em}
+nav.top .brand{display:flex;align-items:center;gap:8px;font:800 20px var(--display);letter-spacing:1px;margin-right:14px}
+nav.top .brand i{font-style:normal;color:var(--hr)}
+nav.top .brand img{width:26px;height:26px;border-radius:6px}
+nav.top a{color:var(--mute);padding:5px 10px;border-radius:7px}
+nav.top a:hover{color:var(--ink);background:var(--panel)}
+main{max-width:1100px;margin:0 auto;padding:28px 28px 64px;position:relative}
+.mascot{position:absolute;right:28px;top:8px;height:92px}
+.hdr{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-right:110px}
+.kicker{font:700 12px var(--mono);letter-spacing:.16em;color:var(--dim)}
+h1{font-size:clamp(46px,6vw,68px);line-height:.92;margin:6px 0 4px;letter-spacing:1px}
+h1 span{color:var(--hr)}
+.sub{font-size:clamp(22px,2.6vw,28px);font-weight:650;color:var(--ink);max-width:760px;line-height:1.3;margin:12px 0 0}
+.sub b{color:var(--hr);font-weight:800}
+.rule{font:700 22px var(--display);background:#1A2A66;border:2px solid #2C3F8F;border-radius:10px;padding:8px 14px;white-space:nowrap}
+.rule b{color:var(--story)}
+.tailor{color:var(--mute);font-size:15px;margin:16px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:18px}
+.or{font:800 20px var(--display);letter-spacing:.12em;color:var(--ink);text-transform:uppercase}
+button.copy,a.copy{font:800 22px var(--display);letter-spacing:.4px;color:var(--on);background:var(--hr);border:0;border-radius:10px;padding:10px 18px;cursor:pointer}
+a.copy.skill{background:var(--story)}
+button.copy:hover{background:#8CEFFF}
+button.copy.done{background:var(--story)}
+.url{font:700 14px var(--mono);color:var(--ink);background:var(--panel2);border:2px solid var(--edge);border-radius:10px;padding:10px 14px}
+.phases{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin-top:28px}
+.choice-or{align-self:center;font:800 28px var(--display);letter-spacing:.14em;color:var(--ink)}
+.pcard{background:var(--panel);border-radius:16px;border-top:8px solid var(--c);padding:14px 16px 16px;display:flex;flex-direction:column;min-width:0}
+.pcard h2{margin:0;font-size:28px;line-height:1;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+.n{display:inline-block;min-width:30px;margin-right:8px;color:var(--on);background:var(--c);border-radius:6px;text-align:center;padding:0 6px}
+.by{margin-top:10px;font-size:15px;font-weight:700;color:var(--on);background:var(--c);border-radius:8px;padding:6px 10px;line-height:1.25}
+.pcard ul{list-style:none;margin:14px 0 0;padding:0}
+.pcard li{font-size:15.5px;line-height:1.3;padding-left:18px;position:relative;margin:0 0 8px}
+.pcard li:before{content:"";position:absolute;left:2px;top:7px;width:8px;height:8px;border-radius:2px;background:var(--c)}
+.cmd{margin-top:14px;font:600 12.5px var(--mono);color:var(--ink);background:var(--panel2);border:2px solid var(--edge);border-radius:10px;padding:12px}
+.cmd span{display:block}
+.pcard button.copy{margin-top:12px;align-self:flex-start;font-size:18px;padding:8px 14px;background:var(--c);color:var(--on)}
+.pcard button.copy:hover{filter:brightness(1.08)}
+.note{margin-top:auto;padding-top:12px;font-size:14px;color:var(--mute)}
+footer{margin-top:28px;padding-top:16px;border-top:2px solid var(--edge);color:var(--faint);font-size:13px}
+footer a{color:var(--mute)}
+footer a:hover{color:var(--ink)}
+@media(max-width:900px){
+  .phases{grid-template-columns:1fr}
+  .choice-or{text-align:center}
+  .hdr{padding-right:0}
+  .mascot{display:none}
+  .rule{white-space:normal}
 }
-*{margin:0;padding:0;box-sizing:border-box}
-html{background:var(--bg)}body{font:15px/1.6 var(--fb);color:var(--ink);background:radial-gradient(1000px 500px at 80% -10%,#16245A 0%,transparent 60%),var(--bg);-webkit-font-smoothing:antialiased;min-height:100vh}
-a{color:var(--hr);text-decoration:none}a:hover{opacity:.85}
-code,.mono{font-family:var(--fm);font-size:.9em}
-.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:12px;padding:10px 28px;background:rgba(10,18,48,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge);font-family:var(--fm);font-size:12px}
-.nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--fd);font-size:18px;font-weight:800;letter-spacing:.5px;margin-right:auto}
-.nav-brand img{width:26px;height:26px;border-radius:4px}
-.nav-brand i{font-style:normal;color:var(--hr)}
-.nav a{color:var(--mute);padding:4px 10px;border-radius:6px}
-.nav a:hover{color:var(--ink);background:var(--panel)}
-.nav .share{color:var(--dim);margin-left:8px}
-.nav .share code{background:var(--panel2);padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid var(--edge);color:var(--mute);font-size:11px}
-.hero{max-width:1100px;margin:0 auto;padding:40px 28px 20px;text-align:center}
-.hero .kicker{font:700 11px var(--fm);letter-spacing:.18em;color:var(--dim);margin-bottom:4px}
-.hero h1{font:800 clamp(32px,5vw,52px)/.95 var(--fd);letter-spacing:1px;margin:4px 0 6px}
-.hero h1 span{color:var(--hr)}
-.hero .sub{font-size:17px;color:var(--mute);margin-bottom:28px}
-.hero .sub strong{color:var(--ink)}
-.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:8px;font:600 15px var(--fb);border:0;cursor:pointer;transition:all .15s;min-width:180px;justify-content:center}
-.btn-p{background:var(--hr);color:#0A1230}.btn-p:hover{background:#8CEFFF}
-.btn-s{background:var(--panel);color:var(--ink);border:1px solid var(--edge)}.btn-s:hover{background:var(--panel2);border-color:var(--dim)}
-.btn.done{background:var(--story);color:#0A1230}
-.instructions{max-width:700px;margin:20px auto 0;padding:24px 28px;background:var(--panel);border:1px solid var(--edge);border-radius:12px;text-align:left}
-.instructions h3{font:700 13px var(--fm);letter-spacing:.12em;color:var(--hr);text-transform:uppercase;margin-bottom:14px}
-.instructions ul{list-style:none;display:grid;gap:10px}
-.instructions li{display:flex;gap:12px;font-size:14px;color:var(--mute);line-height:1.5}
-.instructions li .num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:rgba(47,224,255,0.15);border-radius:50%;font:700 12px var(--fm);color:var(--hr);flex-shrink:0}
-.instructions li code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-family:var(--fm);font-size:12px;border:1px solid var(--edge)}
-.instructions .note{margin-top:12px;padding:10px 14px;background:var(--panel2);border-radius:8px;font-size:13px;color:var(--dim);border:1px dashed var(--edge)}
-.skill-box{margin-top:16px;padding:12px 16px;background:var(--panel2);border-radius:8px;font-size:12px;color:var(--dim);text-align:center;border:1px solid var(--edge)}
-.skill-box code{background:var(--panel);padding:2px 8px;border-radius:4px;cursor:pointer;font-family:var(--fm);border:1px solid var(--edge)}
-.share-row{text-align:center;margin-top:16px;font-size:13px;color:var(--dim)}
-.share-row code{background:var(--panel2);padding:2px 8px;border-radius:4px;cursor:pointer;font-family:var(--fm);border:1px solid var(--edge);color:var(--mute)}
-.share-row a{color:var(--hr);margin:0 4px}
-.content{max-width:880px;margin:20px auto 60px;padding:0 28px}
-.content h1{font:800 28px var(--fd);color:var(--hr);margin:28px 0 8px}
-.content h2{font:700 22px var(--fd);color:var(--beh);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--edge)}
-.content h3{font:700 18px var(--fd);color:var(--ink);margin:20px 0 6px}
-.content h4{font:700 15px var(--fd);color:var(--mute);margin:16px 0 4px}
-.content p{margin:10px 0;color:var(--mute)}
-.content ul,.content ol{margin:6px 0 6px 20px}
-.content li{margin:3px 0;color:var(--mute)}
-.content code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:.85em;border:1px solid var(--edge);color:var(--hr)}
-.content pre{background:var(--panel2);padding:14px 18px;border-radius:8px;overflow-x:auto;margin:12px 0;border:1px solid var(--edge)}
-.content pre code{background:none;border:0;padding:0;color:var(--ink)}
-.content blockquote{border-left:3px solid var(--hr);padding-left:14px;margin:12px 0;color:var(--dim)}
-.content table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
-.content th,.content td{border:1px solid var(--edge);padding:6px 10px;text-align:left;color:var(--mute)}
-.content th{background:var(--panel);font-weight:600;color:var(--ink)}
-.content strong{color:var(--ink)}
-.content em{color:var(--dim)}
-.ft{text-align:center;padding:32px 24px 48px;color:var(--dim);font-size:12px;border-top:1px solid var(--edge);max-width:1100px;margin:0 auto}
-.ft a{color:var(--mute)}.ft a:hover{color:var(--ink)}
 @media(max-width:640px){
-  .nav{padding:8px 14px;flex-wrap:wrap;gap:6px}
-  .hero{padding:24px 14px 16px}
-  .hero h1{font-size:28px}
-  .btn{min-width:0;width:100%;padding:12px 16px;font-size:14px}
-  .content{padding:0 14px}
-  .instructions{padding:16px}
+  nav.top,main{padding-left:14px;padding-right:14px}
+  h1{font-size:42px}
 }
 </style>
 </head>
 <body>
-<div class="nav">
-  <div class="nav-brand">
-    <img src="data:image/png;base64,${SG_LOGO_B64}" alt="">
-    <span>Sugar Glider <i>·</i> Interview Prep</span>
+<nav class="top">
+  <span class="brand">${logo}INTERVIEW <i>·</i> GAME PLAN</span>
+  <a href="#prompt">Copy prompt</a>
+  <a href="#skill">Install skill</a>
+</nav>
+<main>
+  <header class="hero">
+    <svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="10" width="78" height="56" rx="14" fill="#111C44" stroke="#2FE0FF" stroke-width="4"/><path d="M26 66 L22 88 L46 66" fill="#111C44" stroke="#2FE0FF" stroke-width="4" stroke-linejoin="round"/><path d="M45 22 L49.5 33 L61 33.5 L52 40.5 L55 52 L45 45.5 L35 52 L38 40.5 L29 33.5 L40.5 33 Z" fill="#6BFF7A"/><circle cx="86" cy="18" r="9" fill="#FF4FA3"/><circle cx="92" cy="74" r="5" fill="#FFB020"/></svg>
+    <div class="hdr">
+      <div>
+        <div class="kicker">INTERVIEW PREP · SUGAR GLIDER</div>
+        <h1>INTERVIEW <span>·</span> GAME PLAN</h1>
+        <p class="sub"><b>Cryptic HR questions.</b> How to answer them from your resume and the job description.</p>
+      </div>
+      <div class="rule">Copy the prompt <b>or</b> install the skill.</div>
+    </div>
+    <p class="tailor">Pick one. Then send your resume and the job description.</p>
+    <div class="actions">
+      <button class="copy" type="button" id="copy-prompt">Copy prompt</button>
+      <span class="or">or</span>
+      <a class="copy skill" href="#skill">Install skill</a>
+    </div>
+  </header>
+  <div class="phases">
+    <article class="pcard" id="prompt" style="--c:var(--hr)">
+      <h2>Copy the prompt</h2>
+      <div class="by">Paste it into Claude, ChatGPT, or any AI.</div>
+      <ul>
+        <li>Copy the prompt</li>
+        <li>Paste it into the chat</li>
+        <li>Send your resume and the job description</li>
+        <li>It opens the page for you</li>
+      </ul>
+      <button class="copy" type="button" id="copy-prompt-card">Copy prompt</button>
+      <p class="note">You get a dark poster: a map, ten spoken answers, a story bank, and a one-screen quick reference.</p>
+    </article>
+    <div class="choice-or">OR</div>
+    <article class="pcard" id="skill" style="--c:var(--story)">
+      <h2>Install the skill</h2>
+      <div class="by">For Claude, Cursor, and other agents.</div>
+      <code class="cmd"><span>npx skills add</span><span>https://github.com/<br>jkinman/interviewprep</span></code>
+      <button class="copy" type="button" id="copy-cmd" data-copy="${SKILL_CMD}">Copy command</button>
+      <p class="note">Run that once. Then ask for an interview game plan and give it your resume and the job description.</p>
+    </article>
   </div>
-  <a href="#how">How to use</a>
-  ${isRoot ? `<span class="share">Share: <code onclick="cs()">${shareUrl}</code></span>` : `<span class="share"><code>${uuid}</code></span>`}
-</div>
-<div class="hero">
-  <div class="kicker">INTERVIEW PREP · ${new Date().toISOString().slice(0,10)}</div>
-  <h1>INTERVIEW · <span>GAME PLAN</span></h1>
-  <p class="sub">Paste this link into <strong>Claude</strong>, <strong>ChatGPT</strong>, or any AI &rarr; it asks for your resume &rarr; produces a gorgeous HTML cheat sheet with a game-plan map, story bank, and spoken drafts.</p>
-  <div class="btn-row">
-    <button class="btn btn-p" onclick="cpl()">📋 Copy URL</button>
-    <button class="btn btn-s" onclick="cpt()">📝 Copy as skill text</button>
-  </div>
-  <div class="instructions" id="how">
-    <h3>▸ How to use</h3>
-    <ul>
-      <li><span class="num">1</span> Click <strong>Copy URL</strong> (if your AI can browse) or <strong>Copy as skill text</strong> (works everywhere).</li>
-      <li><span class="num">2</span> Paste into <strong>Claude, ChatGPT, Grok, or any LLM</strong>.</li>
-      <li><span class="num">3</span> The AI asks for your <strong>resume or LinkedIn</strong> (1 message).</li>
-      <li><span class="num">4</span> Then asks about the <strong>job description &amp; company</strong> if you have one.</li>
-      <li><span class="num">5</span> Then asks <strong>1–3 short clarifying questions</strong> about format.</li>
-      <li><span class="num">6</span> AI generates a <strong>dark-navy interactive HTML cheat sheet</strong> — game-plan map, 10 questions with spoken drafts, story bank, quick reference.</li>
-    </ul>
-    <div class="note">💡 On phone? Tap <strong>"Copy as skill text"</strong> — paste into any AI chat app. The full prompt fits in one message.</div>
-  </div>
-  <div class="skill-box">
-    Install as a reusable CLI skill: <code onclick="navigator.clipboard.writeText('npx skills add @jkinman/interviewprep')">npx skills add @jkinman/interviewprep</code>
-  </div>
-  <div class="share-row">
-    Share: <code onclick="navigator.clipboard.writeText(this.textContent)">${shareUrl}</code>
-    ${isRoot ? `· <a href="/${newId}">New share link</a>` : `· <a href="/">Home</a>`}
-  </div>
-</div>
-<div class="content">
-${content}
-</div>
-<div class="ft">
-  <a href="https://github.com/jkinman/interviewprep">interviewprep</a> · a <a href="https://sugarglider.work">Sugar Glider</a> tool
-</div>
-<span id="pt" style="display:none">${pEsc}</span>
+  <footer>
+    <a href="https://github.com/jkinman/interviewprep">interviewprep</a>
+    · a <a href="https://sugarglider.work">Sugar Glider</a> tool
+  </footer>
+</main>
+<script type="application/json" id="prompt-json">${promptJson}</script>
 <script>
-function cpl(){var b=document.querySelector('.btn-p'),u='${shareUrl}';navigator.clipboard.writeText(u).then(function(){b.textContent='✅ Copied!';b.classList.add('done');setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('done')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📋 Copy URL';b.classList.remove('done')},3000)})}
-function cpt(){var b=document.querySelector('.btn-s'),t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(function(){b.textContent='✅ Copied!';b.classList.add('done');setTimeout(function(){b.textContent='📝 Copy as skill text';b.classList.remove('done')},2000)}).catch(function(){b.textContent='❌ Failed';setTimeout(function(){b.textContent='📝 Copy as skill text';b.classList.remove('done')},3000)})}
-function cs(){var e=document.querySelector('.nav .share code');navigator.clipboard.writeText(e.textContent);e.textContent='Copied!';setTimeout(function(){e.textContent='${shareUrl}'},1500)}
+function copyText(b, text){
+  var label = b.getAttribute('data-label') || b.textContent;
+  b.setAttribute('data-label', label);
+  function mark(word){
+    b.textContent = word;
+    b.classList.add('done');
+    setTimeout(function(){ b.textContent = label; b.classList.remove('done'); }, 1600);
+  }
+  navigator.clipboard.writeText(text).then(function(){ mark('Copied'); }).catch(function(){ mark('Copy failed'); });
+}
+var promptText = JSON.parse(document.getElementById('prompt-json').textContent);
+document.getElementById('copy-prompt').addEventListener('click', function(){ copyText(this, promptText); });
+document.getElementById('copy-prompt-card').addEventListener('click', function(){ copyText(this, promptText); });
+document.getElementById('copy-cmd').addEventListener('click', function(){ copyText(this, this.getAttribute('data-copy')); });
 </script>
 </body>
 </html>`;
 }
 
 app.get('/health', (req, res) => res.json({ ok: true }));
+app.get('/prompt', (req, res) => {
+  res.type('text/plain; charset=utf-8');
+  res.send(extractPrompt(cheatSheetRaw));
+});
 app.use('/static', express.static(path.join(__dirname, 'static')));
-
 app.get('/:uuid?', (req, res) => {
-  const uuid = req.params.uuid || 'index';
-  const promptBlock = extractPrompt(cheatSheetRaw);
-  const html = marked(cheatSheetRaw);
-  res.send(renderPage(html, uuid, promptBlock));
+  res.type('html');
+  res.send(renderPage());
 });
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Interview Prep on http://0.0.0.0:${PORT}`);
-  console.log(`Content: ${cheatSheetRaw.length}b`);
 });

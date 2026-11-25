@@ -23,9 +23,9 @@ An interactive prompt that turns any resume into a concise interview cheat sheet
 Paste the URL `https://interviewprep.kinman.dev` into any LLM (Claude, ChatGPT, Gemini, etc.) or copy the prompt text directly. The AI will:
 
 1. Ask for your **resume** or LinkedIn profile
-2. Ask for the **job description** (optional — produces generic sheet if absent)
+2. Ask for the **job description** (required — do not generate without it)
 3. Ask **1-3 short clarifying questions** about interview format, timing, and focus areas
-4. Generate a **concise cheat sheet** with:
+4. Write the HTML cheat sheet and open it in the browser. The user should not have to open the file. The sheet has:
    - Top 5 HR/recruiter screen questions with answers
    - Top 5 behavioral questions with STAR answers
    - One-screen quick reference
@@ -42,7 +42,7 @@ Or add the URL as project knowledge in Claude/Cursor/Copilot.
 
 - Any capable LLM (Claude, ChatGPT, Gemini, OpenRouter)
 - Your resume text (paste it when the AI asks)
-- Optional: job description for tailored output
+- The job description (required)
 
 ## Format
 
