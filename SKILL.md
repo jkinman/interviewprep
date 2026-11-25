@@ -51,6 +51,8 @@ The cheat sheet output includes:
 - **Part B** — 5 behavioral questions with competency coding, STAR structures, and spoken drafts
 - **Part C** — Story bank table, questions to ask the interviewer, one-screen reference
 
+The HTML page is not a free layout. Clone the canonical sample embedded in the prompt in `content/cheat-sheet-prompt.md`: same stylesheet, same class names, same map. Replace only the candidate's facts. Do not hand-write a different page.
+
 ## Rules
 
 - Uses only facts from the resume — never invents metrics, titles, or outcomes
