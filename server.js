@@ -13,6 +13,10 @@ try {
 const app = express();
 const PORT = process.env.PORT || 8082;
 const SKILL_CMD = 'npx skills add https://github.com/jkinman/interviewprep';
+const ORIGIN = 'https://interviewprep.kinman.dev';
+const SHARE_TITLE = 'Interview Game Plan';
+const SHARE_DESCRIPTION = 'Cryptic HR questions. How to answer them from your resume and the job description. Copy the prompt or install the skill.';
+const SHARE_IMAGE = `${ORIGIN}/og.jpg`;
 
 const CHEAT_SHEET_PATH = path.join(__dirname, 'content', 'cheat-sheet-prompt.md');
 let cheatSheetRaw = '';
@@ -35,8 +39,25 @@ function renderPage() {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Interview Game Plan</title>
-<meta name="description" content="Cryptic HR questions. How to answer them from your resume and the job description. Copy the prompt or install the skill.">
+<title>${SHARE_TITLE}</title>
+<meta name="description" content="${SHARE_DESCRIPTION}">
+<link rel="canonical" href="${ORIGIN}/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sugar Glider">
+<meta property="og:url" content="${ORIGIN}/">
+<meta property="og:title" content="${SHARE_TITLE}">
+<meta property="og:description" content="${SHARE_DESCRIPTION}">
+<meta property="og:image" content="${SHARE_IMAGE}">
+<meta property="og:image:secure_url" content="${SHARE_IMAGE}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Interview Game Plan. Cryptic HR questions, answered from your resume and the job description.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${SHARE_TITLE}">
+<meta name="twitter:description" content="${SHARE_DESCRIPTION}">
+<meta name="twitter:image" content="${SHARE_IMAGE}">
+<link rel="image_src" href="${SHARE_IMAGE}">
 <style>
 :root{
   --bg:#0A1230;--panel:#111C44;--panel2:#0E173A;--edge:#22306A;--edge2:#33468F;
@@ -92,9 +113,13 @@ button.copy.done{background:var(--story)}
 .plug b{color:var(--ask)}
 .plug .go{font:700 13px var(--mono);color:var(--ask);letter-spacing:.06em}
 .plug:hover{background:#241433}
-footer{margin-top:28px;padding-top:16px;border-top:2px solid var(--edge);color:var(--faint);font-size:13px}
-footer a{color:var(--mute)}
-footer a:hover{color:var(--ink)}
+footer{margin-top:28px;padding-top:18px;border-top:2px solid var(--edge);display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+footer .handle{font:800 22px var(--display);letter-spacing:.8px;text-transform:uppercase;color:var(--ask)}
+footer .handle:hover{color:var(--ink)}
+footer .tagline{margin:2px 0 0;font:800 clamp(26px,4vw,34px)/1.05 var(--display);letter-spacing:.3px;color:var(--ink)}
+footer .meta{margin:8px 0 0;color:var(--faint);font-size:13px}
+footer .meta a{color:var(--mute)}
+footer .meta a:hover{color:var(--ink)}
 @media(max-width:900px){
   .phases{grid-template-columns:1fr}
   .choice-or{text-align:center}
@@ -159,8 +184,9 @@ footer a:hover{color:var(--ink)}
     <span class="go">sugarglider.work</span>
   </a>
   <footer>
-    <a href="https://github.com/jkinman/interviewprep">interviewprep</a>
-    · a <a href="https://sugarglider.work">Sugar Glider</a> tool
+    <a class="handle" href="https://sugarglider.work">Sugar Glider</a>
+    <p class="tagline">Turn career anxiety into career intelligence.</p>
+    <p class="meta"><a href="https://github.com/jkinman/interviewprep">interviewprep</a></p>
   </footer>
 </main>
 <script type="application/json" id="prompt-json">${promptJson}</script>
@@ -188,6 +214,11 @@ app.get('/health', (req, res) => res.json({ ok: true }));
 app.get('/prompt', (req, res) => {
   res.type('text/plain; charset=utf-8');
   res.send(extractPrompt(cheatSheetRaw));
+});
+app.get('/og.jpg', (req, res) => {
+  res.set('Cache-Control', 'public, max-age=86400');
+  res.type('image/jpeg');
+  res.sendFile(path.join(__dirname, 'static', 'og.jpg'));
 });
 app.use('/static', express.static(path.join(__dirname, 'static')));
 app.get('/:uuid?', (req, res) => {
