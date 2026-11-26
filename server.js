@@ -16,7 +16,7 @@ const SKILL_CMD = 'npx skills add https://github.com/jkinman/interviewprep';
 const ORIGIN = 'https://interviewprep.kinman.dev';
 const SHARE_TITLE = 'Interview Game Plan';
 const SHARE_DESCRIPTION = 'Cryptic HR questions. How to answer them from your resume and the job description. Copy the prompt or install the skill.';
-const SHARE_IMAGE = `${ORIGIN}/og.jpg`;
+const SHARE_IMAGE = `${ORIGIN}/static/share.jpg`;
 
 const CHEAT_SHEET_PATH = path.join(__dirname, 'content', 'cheat-sheet-prompt.md');
 let cheatSheetRaw = '';
@@ -215,10 +215,10 @@ app.get('/prompt', (req, res) => {
   res.type('text/plain; charset=utf-8');
   res.send(extractPrompt(cheatSheetRaw));
 });
-app.get('/og.jpg', (req, res) => {
+app.get(['/og.jpg', '/static/share.jpg'], (req, res) => {
   res.set('Cache-Control', 'public, max-age=86400');
   res.type('image/jpeg');
-  res.sendFile(path.join(__dirname, 'static', 'og.jpg'));
+  res.sendFile(path.join(__dirname, 'static', 'share.jpg'));
 });
 app.use('/static', express.static(path.join(__dirname, 'static')));
 app.get('/:uuid?', (req, res) => {
